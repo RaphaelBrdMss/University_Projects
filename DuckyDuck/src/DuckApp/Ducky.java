@@ -10,7 +10,7 @@ public class Ducky {
      public ArrayList<Cell> fov;
 
      public int estomac = 100; // 100 = plein, 0=dead
-     public boolean alive = true;
+     public StateHero m_state;
 
 
      public Ducky(int sizeGrid, Grid g ) {
@@ -31,6 +31,9 @@ public class Ducky {
 
          // def du fov 3x3
          fov = g.getFov(pos);
+
+         // state
+         m_state = StateHero.RANDOM;
 
 
      }
@@ -78,6 +81,61 @@ public class Ducky {
      }
 
 
+    // update Method
+    public void Update(){
+
+        switch (this.m_state)
+        {
+            case RANDOM:
+                System.out.println("[STATE] RW");
+                RandomWalk();
+                decreasedEstomac();
+                // state future state
+                if(isWaterInFov(this.fov))
+                {
+                    System.out.println("je veux l'eau svp");
+                    m_state = StateHero.WALK;
+                }
+                break;
+            case WALK:
+                System.out.println("[STATE] Walk to Water");
+                waterTarget();
+                decreasedEstomac();
+                break;
+            case SWIM:
+                System.out.println("[STATE] RSWIM");
+                randomSwim();
+                decreasedEstomac();
+                break;
+            case SWIMHUNT:
+                System.out.println("[STATE] SwimAndHunt");
+                swimAndHunt();
+                decreasedEstomac();
+                break;
+            case HUNT:
+                System.out.println("[STATE] Hunt");
+                Hunt();
+                decreasedEstomac();
+                break;
+            case EATING:
+                System.out.println("[STATE] Eat");
+                Eat();
+                break;
+            case DEAD:
+                System.out.println("[STATE] DEAD !! ");
+                // Is dead but we still want to move him
+                m_state = StateHero.RANDOM;
+                break;
+            default:
+                decreasedEstomac();
+                break;
+        }
+
+
+
+    }
+
+
      public void move(){
          //on ne met jamais a jour la pos.type donc il voit pas d'eau ou dans certain cas pas encore trouvés.
          if(pos.type == GroundType.WATER){
@@ -94,9 +152,7 @@ public class Ducky {
              System.out.println("rw");
              RandomWalk();
          }
-         // if not eating
-         if (estomac > 0)
-            estomac--;
+
      }
 
     // Walk to Water
@@ -104,23 +160,28 @@ public class Ducky {
 
          int xwater = 0;
          int ywater = 0;
+         int dxy = Integer.MAX_VALUE;
          // get nearest water
          for(Cell c : this.fov) {
              if(c.type == GroundType.WATER){
-                 xwater = c.x;
-                 ywater = c.y;
-                 System.out.println("Nearest Water : " + xwater +","+ ywater);
-                 break;
+                 if ((Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y)) < dxy )
+                 {
+                     xwater = c.x;
+                     ywater = c.y;
+                     dxy = Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y);
+                 }
              }
 
          }
+
+         System.out.println("Nearest Water : " + xwater +","+ ywater);
          System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
-         // set best path
+
+         // set movement toward cell
          float dx = this.pos.x - xwater;
          float dy = this.pos.y - ywater;
 
-         if (dx < 0 )
-         {
+         if (dx < 0 ){
              this.pos.x++;
          }
          else if (dx > 0)
@@ -137,7 +198,11 @@ public class Ducky {
              this.pos.y--;
          }
 
-
+         // if we land on target next turn, we need to swim STATE
+        if ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0)
+        {
+            this.m_state = StateHero.SWIM;
+        }
 
 
      }
@@ -146,6 +211,33 @@ public class Ducky {
      public void randomSwim(){}
      //hunt if there is/are fish in the lake
      public void swimAndHunt(){}
+    // hunt on ground
+    public void Hunt(){}
+
+    public void decreasedEstomac()
+    {
+        // if not eating
+        if (estomac > 0)
+        {
+            estomac--;
+        }
+        else
+        {
+            m_state = StateHero.DEAD;
+        }
+    }
+    // eat : +50
+    public void Eat(){
+         if (estomac > 50)
+         {
+             estomac = 100;
+         }
+         else
+         {
+             estomac+=50;
+         }
+
+    }
 
      void setFov(ArrayList<Cell> fov){
          this.fov =fov;

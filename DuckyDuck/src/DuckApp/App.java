@@ -107,7 +107,7 @@ End init cells
         ////////////////////////////////////////
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q) {
-                duck.move();
+                duck.Update();
                 duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
                 duck.setFov(g.getFov(duck.pos));
 
