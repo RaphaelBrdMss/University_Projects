@@ -1,2 +1,2 @@
-# University_Project
- Project that I made during my University course
+# University_Projects
+ Projects that I made during my University course
