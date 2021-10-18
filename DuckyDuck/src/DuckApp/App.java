@@ -17,8 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 // bars
 import javafx.scene.shape.Rectangle;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.binding.DoubleBinding;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,11 +90,16 @@ Init cells
 End init cells
  ---------------------------------------------------------------------------------*/
         // Trying a bar
-        Rectangle mangerbar = new Rectangle(2, 50.0, Color.RED);
-        double widthManger = mangerbar.getWidth();
+        double widthManger = 2.0;
+        Rectangle fondMbar = new Rectangle(widthManger, 50.0, Color.BLACK);
+        Rectangle mangerbar = new Rectangle(widthManger, 50.0, Color.RED);
+        fondMbar.setWidth(widthManger*duck.estomac);
         mangerbar.setWidth(widthManger*duck.estomac);
+        fondMbar.setX(50.0);
+        fondMbar.setY(50.0);
         mangerbar.setX(50.0);
         mangerbar.setY(50.0);
+
 
 
         /////////////////////////////////////////
@@ -118,6 +121,7 @@ End init cells
         //add Ducky & food to the scene (after mouvement)
         root.getChildren().add(duckyPNG);
         root.getChildren().add(TruitePNG);
+        root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
 
 
