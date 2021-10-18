@@ -1,0 +1,39 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Characters.cs">
+    <Files>
+      <File FileName="Library/PackageCache/com.unity.multiplayer-hlapi@1.0.4/Editor/Tools/Weaver/AssemblyInfo.cs" Line="22" Column="1" />
+      <File FileName="Assets/Scripts/AI.cs" Line="36" Column="2" />
+      <File FileName="Assets/Scripts/Hexas.cs" Line="845" Column="18" />
+      <File FileName="Assets/Scripts/HexaGO.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/MainGameConsole.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/MainMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CharacterGO.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Characters.cs" Line="58" Column="2" />
+      <File FileName="Assets/Scripts/Classifier2.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Classifiers.cs" Line="12" Column="19" />
+      <File FileName="Assets/Scripts/Classifiers1.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/DamageValueDisplay.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Pause Cafe" expanded="True">
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="Assets" expanded="True">
+                <Node name="Scripts" expanded="True">
+                  <Node name="Characters.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

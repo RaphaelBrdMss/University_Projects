@@ -1,0 +1,78 @@
+
+=== Tue Feb 25 17:25:23 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.package-manager-ui from version 2.0.3 to 2.0.8
+  com.unity.textmeshpro from version 1.3.0 to 1.4.1
+
+=== Wed Feb 26 12:03:11 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.2d.sprite@1.0.0
+  com.unity.2d.tilemap@1.0.0
+  com.unity.ide.rider@1.1.4
+  com.unity.ide.vscode@1.1.4
+  com.unity.modules.androidjni@1.0.0
+  com.unity.multiplayer-hlapi@1.0.4
+  com.unity.test-framework@1.1.11
+  com.unity.timeline@1.2.10
+  com.unity.ugui@1.0.0
+  com.unity.xr.legacyinputhelpers@1.3.8
+The following packages were updated:
+  com.unity.analytics from version 3.2.2 to 3.3.5
+  com.unity.collab-proxy from version 1.2.15 to 1.2.16
+  com.unity.purchasing from version 2.0.3 to 2.0.6
+  com.unity.textmeshpro from version 1.4.1 to 2.0.1
+The following packages were removed:
+  com.unity.package-manager-ui@2.0.8
+
+=== Wed Mar 11 19:34:40 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.xr.legacyinputhelpers from version 1.3.8 to 1.3.11
+
+=== Wed Apr  8 14:17:37 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.test-framework from version 1.1.11 to 1.1.13
+
+=== Wed Jun  3 14:57:02 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ads from version 2.0.8 to 3.4.4
+  com.unity.ide.vscode from version 1.1.4 to 1.2.0
+  com.unity.xr.legacyinputhelpers from version 1.3.11 to 2.1.3
+
+=== Thu Sep 30 10:59:32 2021
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.ide.visualstudio@2.0.11
+The following packages were updated:
+  com.unity.ads from version 3.4.4 to 3.7.5
+  com.unity.analytics from version 3.3.5 to 3.6.11
+  com.unity.collab-proxy from version 1.2.16 to 1.9.0
+  com.unity.ide.rider from version 1.1.4 to 2.0.7
+  com.unity.ide.vscode from version 1.2.0 to 1.2.4
+  com.unity.purchasing from version 2.0.6 to 3.2.2
+  com.unity.test-framework from version 1.1.13 to 1.1.29
+  com.unity.textmeshpro from version 2.0.1 to 3.0.6
+  com.unity.timeline from version 1.2.10 to 1.4.8
+  com.unity.xr.legacyinputhelpers from version 2.1.3 to 2.1.8
