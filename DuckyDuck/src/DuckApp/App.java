@@ -1,6 +1,7 @@
 package DuckApp;
 
 import javafx.application.Application;
+import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,7 +13,12 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+// bars
+import javafx.scene.shape.Rectangle;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.binding.DoubleBinding;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +36,7 @@ public class App extends Application {
         BorderPane bdPane = new BorderPane();
         ScrollPane scroll = new ScrollPane(new Group(root));
         bdPane.setCenter(scroll);
-        Scene scene = new Scene(bdPane, 1000, 1000);
+        Scene scene = new Scene(bdPane, 800, 800);
 
         ////////////////////////////////////
         ////Init Grid, Duckpos & Foodpos////
@@ -85,6 +91,13 @@ Init cells
 /*---------------------------------------------------------------------------------
 End init cells
  ---------------------------------------------------------------------------------*/
+        // Trying a bar
+        Rectangle mangerbar = new Rectangle(2, 50.0, Color.RED);
+        double widthManger = mangerbar.getWidth();
+        mangerbar.setWidth(widthManger*duck.estomac);
+        mangerbar.setX(50.0);
+        mangerbar.setY(50.0);
+
 
         /////////////////////////////////////////
         ////Movement pressing A key (azerty)////
@@ -95,14 +108,17 @@ End init cells
                 duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
                 duck.setFov(g.getFov(duck.pos));
 
+                // BAR Update
+                mangerbar.setWidth(widthManger*duck.estomac);
+
             }
         });
-
 
 
         //add Ducky & food to the scene (after mouvement)
         root.getChildren().add(duckyPNG);
         root.getChildren().add(TruitePNG);
+        root.getChildren().add(mangerbar);
 
 
         //zooming fonction

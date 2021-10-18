@@ -9,6 +9,9 @@ public class Ducky {
      public int gridSize;
      public ArrayList<Cell> fov;
 
+     public int estomac = 100; // 100 = plein, 0=dead
+     public boolean alive = true;
+
 
      public Ducky(int sizeGrid, Grid g ) {
          this.gridSize = g.size;
@@ -84,20 +87,62 @@ public class Ducky {
 
          else if(isWaterInFov(this.fov)){
              System.out.println("je veux l'eau svp");
-
+             waterTarget();
          }
 
          else{
              System.out.println("rw");
              RandomWalk();
          }
+         // if not eating
+         if (estomac > 0)
+            estomac--;
      }
 
-
+    // Walk to Water
      public void waterTarget(){
 
+         int xwater = 0;
+         int ywater = 0;
+         // get nearest water
+         for(Cell c : this.fov) {
+             if(c.type == GroundType.WATER){
+                 xwater = c.x;
+                 ywater = c.y;
+                 System.out.println("Nearest Water : " + xwater +","+ ywater);
+                 break;
+             }
+
+         }
+         System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
+         // set best path
+         float dx = this.pos.x - xwater;
+         float dy = this.pos.y - ywater;
+
+         if (dx < 0 )
+         {
+             this.pos.x++;
+         }
+         else if (dx > 0)
+         {
+             this.pos.x--;
+         }
+
+         if (dy < 0 )
+         {
+             this.pos.y++;
+         }
+         else if (dy > 0)
+         {
+             this.pos.y--;
+         }
+
+
+
+
      }
-     //Random swin if there is no fish in lake(s)
+
+     //Random swim if there is no fish in lake(s)
      public void randomSwim(){}
      //hunt if there is/are fish in the lake
      public void swimAndHunt(){}
