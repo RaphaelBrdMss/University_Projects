@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="RAYTRACER"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\glfw-3.2\;CMake Files\glfw-3.2\CMake\;CMake Files\glfw-3.2\CMake\modules\;CMake Files\glfw-3.2\src\;CMake Files\source\;CMake Files\source\common\;CMake Files\pngdecode\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="raytracer">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/raytracer.app/Contents/MacOS/raytracer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 raytracer"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="raytracer/fast">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/raytracer.app/Contents/MacOS/raytracer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 raytracer/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glad">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/libglad.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 glad"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glad/fast">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/libglad.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 glad/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pngdecode">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/libpngdecode.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 pngdecode"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pngdecode/fast">
+				<Option output="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/libpngdecode.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps"/>
+					<Add directory="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 pngdecode/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/pngdecode/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/cmake-build-debug/glfw-3.2/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps/glad.c">
+			<Option target="glad"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/deps/glad/glad.h">
+			<Option target="glad"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_init.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_joystick.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_monitor.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/cocoa_window.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/nsgl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/nsgl_context.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/posix_tls.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/posix_tls.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/vulkan.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/png.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/png.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/pngdec.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/pngdec.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/pngenc.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/pngenc.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zdec.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zdec.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zenc.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zenc.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zss.cpp">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/zss.h">
+			<Option target="pngdecode"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders/fshader.glsl">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/shaders/vshader.glsl">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/CheckError.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/ObjMesh.cpp">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/ObjMesh.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/Object.cpp">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/Object.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/SourcePath.cpp">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/SourcePath.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/Trackball.cpp">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/Trackball.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/common.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/mat.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/vec.h">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/main.cpp">
+			<Option target="raytracer"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\glfw-3.2\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/CMake/modules/FindVulkan.cmake">
+			<Option virtualFolder="CMake Files\glfw-3.2\CMake\modules\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\glfw-3.2\src\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\glfw-3.2\src\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\glfw-3.2\src\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/glfw-3.2/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\glfw-3.2\src\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/source/common/SourcePath.cpp.in">
+			<Option virtualFolder="CMake Files\source\common\"/>
+		</Unit>
+		<Unit filename="/Users/raphaelbraud-mussi/Desktop/raytracer-template/pngdecode/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\pngdecode\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
