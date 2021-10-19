@@ -18,6 +18,13 @@ public class Cell {
         this.type = type;
     }
 
+    // create an invalid cell
+    public void invalidateCell()
+    {
+        this.x = -1;
+        this.y = -1;
+    }
+
     @Override
     public String toString(){
         return "Coord : " + x + "," + y;
