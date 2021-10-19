@@ -11,6 +11,7 @@ public class Ducky {
 
      public int estomac = 100; // 100 = plein, 0=dead
      public StateHero m_state;
+     private boolean reachedWater = false;
 
 
      public Ducky(int sizeGrid, Grid g ) {
@@ -101,6 +102,11 @@ public class Ducky {
                 System.out.println("[STATE] Walk to Water");
                 waterTarget();
                 decreasedEstomac();
+                // if water is reached we change the future state
+                if (reachedWater)
+                {
+                    m_state = StateHero.SWIM;
+                }
                 break;
             case SWIM:
                 System.out.println("[STATE] RSWIM");
@@ -122,7 +128,7 @@ public class Ducky {
                 Eat();
                 break;
             case DEAD:
-                System.out.println("[STATE] DEAD !! ");
+                System.out.println("[STATE] DEAD !! But Revival");
                 // Is dead but we still want to move him
                 m_state = StateHero.RANDOM;
                 break;
@@ -130,6 +136,12 @@ public class Ducky {
                 decreasedEstomac();
                 break;
         }
+
+        // DEAD overall
+        /*if (estomac <= 0)
+        {
+            m_state = StateHero.DEAD;
+        }*/
 
 
 
@@ -178,37 +190,36 @@ public class Ducky {
          System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
 
          // set movement toward cell
-         float dx = this.pos.x - xwater;
-         float dy = this.pos.y - ywater;
+         walkTowardPosition(xwater, ywater);
 
-         if (dx < 0 ){
-             this.pos.x++;
-         }
-         else if (dx > 0)
-         {
-             this.pos.x--;
-         }
-
-         if (dy < 0 )
-         {
-             this.pos.y++;
-         }
-         else if (dy > 0)
-         {
-             this.pos.y--;
-         }
-
-         // if we land on target next turn, we need to swim STATE
-        if ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0)
-        {
-            this.m_state = StateHero.SWIM;
-        }
-
-
+        // if we land on target next turn, we need to swim STATE
+        reachedWater = ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0);
      }
 
      //Random swim if there is no fish in lake(s)
-     public void randomSwim(){}
+     public void randomSwim(){
+
+         int xwater = 0;
+         int ywater = 0;
+         ArrayList<Cell> waterCells = new ArrayList<Cell>();
+
+         // get to one block of water
+         for(Cell c : this.fov) {
+             if(c.type == GroundType.WATER){
+                 waterCells.add(c);
+             }
+         }
+
+         // choose one cell among all
+         int idx = (int)(Math.random()*(waterCells.size()-1));
+         xwater = waterCells.get(idx).x;
+         ywater = waterCells.get(idx).y;
+
+         System.out.println("Random Block Water : " + xwater +","+ ywater);
+         // Walk to this cell
+         walkTowardPosition(xwater, ywater);
+     }
+
      //hunt if there is/are fish in the lake
      public void swimAndHunt(){}
     // hunt on ground
@@ -223,7 +234,7 @@ public class Ducky {
         }
         else
         {
-            m_state = StateHero.DEAD;
+            //m_state = StateHero.DEAD;
         }
     }
     // eat : +50
@@ -238,6 +249,32 @@ public class Ducky {
          }
 
     }
+
+     // Walk Toward Target
+     void walkTowardPosition(int xtarget, int ytarget)
+     {
+         // set movement toward cell(xtarget, ytarget)
+         float dx = this.pos.x - xtarget;
+         float dy = this.pos.y - ytarget;
+
+         if (dx < 0 ){
+             this.pos.x++;
+         }
+         else if (dx > 0)
+         {
+             this.pos.x--;
+         }
+
+         if (dy < 0 )
+         {
+             this.pos.y++;
+         }
+         else if (dy > 0) {
+             this.pos.y--;
+         }
+
+     }
+
 
      void setFov(ArrayList<Cell> fov){
          this.fov =fov;
