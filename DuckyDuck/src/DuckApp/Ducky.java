@@ -6,12 +6,14 @@ public class Ducky {
 
      public Cell pos;
      public Cell posPrev;
+     public Cell targetFood;
      public int gridSize;
      public ArrayList<Cell> fov;
 
      public int estomac = 100; // 100 = plein, 0=dead
      public StateHero m_state;
      private boolean reachedWater = false;
+     public boolean inWater = false;
 
 
      public Ducky(int sizeGrid, Grid g ) {
@@ -36,7 +38,8 @@ public class Ducky {
          // state
          m_state = StateHero.RANDOM;
 
-
+         // init target food
+         targetFood = new Cell(-1,-1);
      }
 
 
@@ -97,6 +100,8 @@ public class Ducky {
                     System.out.println("je veux l'eau svp");
                     m_state = StateHero.WALK;
                 }
+                reachedWater = false;
+                inWater = false;
                 break;
             case WALK:
                 System.out.println("[STATE] Walk to Water");
@@ -112,16 +117,28 @@ public class Ducky {
                 System.out.println("[STATE] RSWIM");
                 randomSwim();
                 decreasedEstomac();
+                inWater = true;
+                // if valid food cell
+                if (validFoodCell())
+                {
+                    m_state = StateHero.SWIMHUNT;
+                }
                 break;
             case SWIMHUNT:
                 System.out.println("[STATE] SwimAndHunt");
                 swimAndHunt();
                 decreasedEstomac();
+                inWater = true;
+                if ((this.pos.x == targetFood.x) && (this.pos.y == targetFood.y))
+                {
+                    m_state = StateHero.EATING;
+                }
                 break;
             case HUNT:
                 System.out.println("[STATE] Hunt");
                 Hunt();
                 decreasedEstomac();
+                reachedWater = false;
                 break;
             case EATING:
                 System.out.println("[STATE] Eat");
@@ -134,6 +151,7 @@ public class Ducky {
                 break;
             default:
                 decreasedEstomac();
+                inWater = false;
                 break;
         }
 
@@ -211,7 +229,7 @@ public class Ducky {
          }
 
          // choose one cell among all
-         int idx = (int)(Math.random()*(waterCells.size()-1));
+         int idx = (int)(Math.random()*waterCells.size());
          xwater = waterCells.get(idx).x;
          ywater = waterCells.get(idx).y;
 
@@ -220,8 +238,23 @@ public class Ducky {
          walkTowardPosition(xwater, ywater);
      }
 
+     // food position  when in Lake
+    public void setFoodWater(Cell foodpos)
+    {
+        targetFood = foodpos;
+    }
+
+    private boolean validFoodCell()
+    {
+        return ! ((targetFood.x == -1) && (targetFood.y == -1));
+    }
+
+
      //hunt if there is/are fish in the lake
-     public void swimAndHunt(){}
+     public void swimAndHunt(){
+         // walk toward Food
+         walkTowardPosition(targetFood.x, targetFood.y);
+     }
     // hunt on ground
     public void Hunt(){}
 
