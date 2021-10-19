@@ -1,7 +1,6 @@
 package DuckApp;
 
 import javafx.application.Application;
-import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,7 +17,6 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Locale;
 
 public class App extends Application {
 
@@ -40,6 +38,7 @@ public class App extends Application {
         ///////////////////////////////////
         Grid g = new Grid(20,8);
         Ducky duck = new Ducky(g.size,g);
+        // instantiate food
         Food Fish = new Food(g.size,g);
 
         
@@ -138,7 +137,9 @@ Init cells
 /*---------------------------------------------------------------------------------
 End init cells
  ---------------------------------------------------------------------------------*/
-        // Trying a bar
+        // ---------------
+        // BARS
+        // ---------------
         double widthManger = 2.0;
         Rectangle fondMbar = new Rectangle(widthManger, 50.0, Color.BLACK);
         Rectangle mangerbar = new Rectangle(widthManger, 50.0, Color.RED);
@@ -150,22 +151,42 @@ End init cells
         mangerbar.setY(50.0);
 
 
-
         /////////////////////////////////////////
         ////Movement pressing A key (azerty)////
         ////////////////////////////////////////
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q) {
+
+                // ---------------
+                // FOOD HANDLING
+                // ---------------
+                if (duck.m_state == StateHero.EATING)
+                {
+                    boolean isSameFish = Fish.isId(duck.getEatenId());
+                    if (isSameFish)
+                    {
+                        // eat - relocate
+                        Fish.regenerate(g.size,g);
+                        TruitePNG.relocate(Fish.pos.x*100.0, Fish.pos.y*100.0);
+                    }
+                }
+
+                // ---------------
+                // DUCKY STATE
+                // ---------------
                 duck.Update();
                 duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
                 duck.setFov(g.getFov(duck.pos));
                 // if in water => send the nearest fish
                 if (duck.inWater)
                 {
-                    duck.setFoodWater(Fish.pos);
+                    // determine which food : m_id
+                    duck.setFoodWater(Fish.pos, Fish.getId());
                 }
 
-                // BAR Update
+                // ---------------
+                // User Information
+                // ---------------
                 mangerbar.setWidth(widthManger*duck.estomac);
 
             }
