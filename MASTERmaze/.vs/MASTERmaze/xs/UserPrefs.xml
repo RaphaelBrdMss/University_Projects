@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{26564D64-838B-5A80-76AB-81A4AB95C2F6}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GridCell.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GridCell.cs" Line="102" Column="35" />
+      <File FileName="Assets/Scripts/MainMenu.cs" />
+      <File FileName="Assets/Scripts/Finish.cs" />
+      <File FileName="Assets/Scripts/Cell.cs" />
+      <File FileName="Assets/Scripts/DisplayTime.cs" />
+      <File FileName="Assets/Scripts/GameUtile.cs" />
+      <File FileName="Assets/Scripts/Parser.cs" />
+      <File FileName="Assets/Scripts/PlayerControl.cs" />
+      <File FileName="Assets/Scripts/CamControl.cs" Line="19" Column="74" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MASTERmaze" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="GridCell.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d3e9bfc6-1aef-4ed9-b844-63ebd8557a16" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
