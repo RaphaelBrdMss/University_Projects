@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 
 public class App extends Application {
 
@@ -41,16 +42,30 @@ public class App extends Application {
         ///////////////////////////////////
         Grid g = new Grid(20,5);
         Ducky duck = new Ducky(g.size,g);
-        FileInputStream input = new FileInputStream("Ducky.png");
+        System.out.println(System.getProperty("os.name").toLowerCase());
+        FileInputStream input;
+        FileInputStream inputFish;
+        String OsType = System.getProperty("os.name").toLowerCase();
+
+        if(OsType.contains("mac") || OsType.contains("nix") || OsType.contains("nux") || OsType.contains("aix") ) {
+
+            input = new FileInputStream("Texture/Ducky.png");
+            inputFish= new FileInputStream("Texture/Truite.png");
+        }else {
+             input = new FileInputStream("Texture\\Ducky.png");
+             inputFish = new FileInputStream("Texture\\Truite.png");
+        }
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
         duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
 
         Food Fish = new Food(g.size,g);
-        FileInputStream inputFish = new FileInputStream("Truite.png");
+
         Image imageFish = new Image(inputFish);
         ImageView TruitePNG = new ImageView(imageFish);
         TruitePNG.relocate(Fish.pos.x*100,Fish.pos.y*100);
+
+
 
 
 
