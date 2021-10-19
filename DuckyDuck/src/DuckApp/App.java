@@ -10,9 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 // bars
@@ -42,28 +40,58 @@ public class App extends Application {
         ///////////////////////////////////
         Grid g = new Grid(20,5);
         Ducky duck = new Ducky(g.size,g);
-        System.out.println(System.getProperty("os.name").toLowerCase());
+        Food Fish = new Food(g.size,g);
+
+        
+
+        //////////////////////
+        ////Init Texture ////
+        /////////////////////
         FileInputStream input;
         FileInputStream inputFish;
+        FileInputStream inputGrass;
+        FileInputStream inputWater;
+
         String OsType = System.getProperty("os.name").toLowerCase();
 
         if(OsType.contains("mac") || OsType.contains("nix") || OsType.contains("nux") || OsType.contains("aix") ) {
 
             input = new FileInputStream("Texture/Ducky.png");
             inputFish= new FileInputStream("Texture/Truite.png");
+            inputGrass = new FileInputStream("Texture/Herbe.jpg");
+            inputWater = new FileInputStream("TeXture/Eau.jpg");
+
         }else {
              input = new FileInputStream("Texture\\Ducky.png");
              inputFish = new FileInputStream("Texture\\Truite.png");
+             inputGrass = new FileInputStream("Texture\\Herbe.jpg");
+             inputWater = new FileInputStream("TeXture\\Eau.jpg");
         }
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
         duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
 
-        Food Fish = new Food(g.size,g);
-
         Image imageFish = new Image(inputFish);
         ImageView TruitePNG = new ImageView(imageFish);
         TruitePNG.relocate(Fish.pos.x*100,Fish.pos.y*100);
+
+        Image imageGrass = new Image(inputGrass);
+
+        BackgroundImage bGrass = new BackgroundImage(imageGrass,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+        Background grass = new Background(bGrass);
+
+        Image imageWater = new Image(inputWater);
+        BackgroundImage bWater = new BackgroundImage(imageWater,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+        Background water = new Background(bWater);
+
 
 
 
@@ -83,16 +111,22 @@ Init cells
 
             if(c.type == GroundType.GROUND){
 
-                cellshow.setStyle("-fx-background-color: green;" +
+
+
+
+
+                cellshow.setStyle("-fx-background-image : url ('Texture/Herbe.jpg');" +
                         "-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setBackground(grass);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
             }
 
             if(c.type == GroundType.WATER){
 
-                cellshow.setStyle("-fx-background-color: blue;" +
+                cellshow.setStyle("-fx-background-image : url ('Texture/Eau.jpg');" +
                         "-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setBackground(water);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
             }
