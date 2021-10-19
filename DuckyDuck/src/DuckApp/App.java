@@ -40,7 +40,7 @@ public class App extends Application {
         ////////////////////////////////////
         ////Init Grid, Duckpos & Foodpos////
         ///////////////////////////////////
-        Grid g = new Grid(20,5);
+        Grid g = new Grid(20,8);
         Ducky duck = new Ducky(g.size,g);
         System.out.println(System.getProperty("os.name").toLowerCase());
         FileInputStream input;
@@ -125,6 +125,11 @@ End init cells
                 duck.Update();
                 duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
                 duck.setFov(g.getFov(duck.pos));
+                // if in water => send the nearest fish
+                if (duck.inWater)
+                {
+                    duck.setFoodWater(Fish.pos);
+                }
 
                 // BAR Update
                 mangerbar.setWidth(widthManger*duck.estomac);
