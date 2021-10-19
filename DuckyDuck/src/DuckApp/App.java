@@ -1,6 +1,7 @@
 package DuckApp;
 
 import javafx.application.Application;
+import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,7 +13,10 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+// bars
+import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +34,7 @@ public class App extends Application {
         BorderPane bdPane = new BorderPane();
         ScrollPane scroll = new ScrollPane(new Group(root));
         bdPane.setCenter(scroll);
-        Scene scene = new Scene(bdPane, 1000, 1000);
+        Scene scene = new Scene(bdPane, 800, 800);
 
         ////////////////////////////////////
         ////Init Grid, Duckpos & Foodpos////
@@ -85,24 +89,40 @@ Init cells
 /*---------------------------------------------------------------------------------
 End init cells
  ---------------------------------------------------------------------------------*/
+        // Trying a bar
+        double widthManger = 2.0;
+        Rectangle fondMbar = new Rectangle(widthManger, 50.0, Color.BLACK);
+        Rectangle mangerbar = new Rectangle(widthManger, 50.0, Color.RED);
+        fondMbar.setWidth(widthManger*duck.estomac);
+        mangerbar.setWidth(widthManger*duck.estomac);
+        fondMbar.setX(50.0);
+        fondMbar.setY(50.0);
+        mangerbar.setX(50.0);
+        mangerbar.setY(50.0);
+
+
 
         /////////////////////////////////////////
         ////Movement pressing A key (azerty)////
         ////////////////////////////////////////
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q) {
-                duck.move();
+                duck.Update();
                 duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
                 duck.setFov(g.getFov(duck.pos));
+
+                // BAR Update
+                mangerbar.setWidth(widthManger*duck.estomac);
 
             }
         });
 
 
-
         //add Ducky & food to the scene (after mouvement)
         root.getChildren().add(duckyPNG);
         root.getChildren().add(TruitePNG);
+        root.getChildren().add(fondMbar);
+        root.getChildren().add(mangerbar);
 
 
         //zooming fonction
