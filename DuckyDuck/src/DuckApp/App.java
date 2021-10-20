@@ -50,6 +50,7 @@ public class App extends Application {
         FileInputStream inputFish;
         FileInputStream inputGrass;
         FileInputStream inputWater;
+        FileInputStream inputRoseau;
 
         String OsType = System.getProperty("os.name").toLowerCase();
 
@@ -58,13 +59,16 @@ public class App extends Application {
             input = new FileInputStream("Texture/Ducky.png");
             inputFish= new FileInputStream("Texture/Truite.png");
             inputGrass = new FileInputStream("Texture/Herbe.jpg");
-            inputWater = new FileInputStream("TeXture/Eau.jpg");
+            inputWater = new FileInputStream("Texture/Eau.jpg");
+            inputRoseau = new FileInputStream("Texture/Roseau.jpg");
+
 
         }else {
              input = new FileInputStream("Texture\\Ducky.png");
              inputFish = new FileInputStream("Texture\\Truite.png");
              inputGrass = new FileInputStream("Texture\\Herbe.jpg");
-             inputWater = new FileInputStream("TeXture\\Eau.jpg");
+             inputWater = new FileInputStream("Texture\\Eau.jpg");
+             inputRoseau = new FileInputStream("Texture\\Roseau.jpg");
         }
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
@@ -74,14 +78,25 @@ public class App extends Application {
         ImageView TruitePNG = new ImageView(imageFish);
         TruitePNG.relocate(Fish.pos.x*100,Fish.pos.y*100);
 
-        Image imageGrass = new Image(inputGrass);
+        Image imageRoseau = new Image(inputRoseau);
+        BackgroundImage bRoseau = new BackgroundImage(imageRoseau,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+        Background roseau = new Background(bRoseau);
 
+
+
+
+        Image imageGrass = new Image(inputGrass);
         BackgroundImage bGrass = new BackgroundImage(imageGrass,
                 BackgroundRepeat.REPEAT,
                 BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
         Background grass = new Background(bGrass);
+
 
         Image imageWater = new Image(inputWater);
         BackgroundImage bWater = new BackgroundImage(imageWater,
@@ -90,6 +105,8 @@ public class App extends Application {
                 BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
         Background water = new Background(bWater);
+
+
 
 
 
@@ -114,8 +131,7 @@ Init cells
 
 
 
-                cellshow.setStyle("-fx-background-image : url ('Texture/Herbe.jpg');" +
-                        "-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
                 cellshow.setBackground(grass);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
@@ -123,16 +139,30 @@ Init cells
 
             if(c.type == GroundType.WATER){
 
-                cellshow.setStyle("-fx-background-image : url ('Texture/Eau.jpg');" +
-                        "-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
                 cellshow.setBackground(water);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
             }
 
+            if(c.type == GroundType.ROSEAU){
+                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+
+
+                cellshow.setBackground(roseau);
+                cellshow.setLayoutX(x);
+                cellshow.setLayoutY(y);
+
+
+            }
+
+
             root.getChildren().add(cellshow);
 
+
         }
+
+
 
 /*---------------------------------------------------------------------------------
 End init cells
@@ -198,6 +228,13 @@ End init cells
         root.getChildren().add(TruitePNG);
         root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
+
+
+
+
+
+
+
 
 
         //zooming fonction

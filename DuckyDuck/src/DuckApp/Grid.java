@@ -22,11 +22,57 @@ public class Grid {
             }
         }
 
+
+
         for(int i =0 ; i<lakeSize ; i++){
             for(int j =0 ; j<lakeSize ; j++){
                 CellsList.get((randX+i)*size+(randY+j)).setType(GroundType.WATER);
             }
         }
+
+        ArrayList<Cell> waterCells = new ArrayList<>();
+        for(Cell c : CellsList){
+            if(c.type == GroundType.WATER){
+                waterCells.add(c);
+
+            }
+        }
+        // Generation V1 roseau a little buggy but works pretty fine (still need debug)
+        for(int i=0 ; i<lakeSize ; i++){
+
+            if(getCell(waterCells.get(i).x-1,waterCells.get(i).y).x>-1  )
+                getCell(waterCells.get(i).x - 1, waterCells.get(i).y).setType(GroundType.ROSEAU);
+
+            if(getCell(waterCells.get((lakeSize*lakeSize-1)-i).x+1,waterCells.get((lakeSize*lakeSize-1)-i).y).x<=size)
+                getCell(waterCells.get((lakeSize*lakeSize-1)-i).x+1,waterCells.get((lakeSize*lakeSize-1)-i).y).setType(GroundType.ROSEAU);
+
+
+            for(int j= 0; j<lakeSize; j++){
+
+                if(getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).type == GroundType.GROUND
+                    && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).y<=size){
+
+                    getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).setType(GroundType.ROSEAU);
+                }
+                if(getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).type == GroundType.GROUND
+                    && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).y>-1){
+
+
+
+
+                    getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).setType(GroundType.ROSEAU);
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
     }
     public Cell getCell(int x, int y){
         return CellsList.get(x*this.size+y);

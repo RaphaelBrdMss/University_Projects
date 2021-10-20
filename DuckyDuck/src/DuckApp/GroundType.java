@@ -2,5 +2,5 @@ package DuckApp;
 
 public enum GroundType {
 
-    WATER,GROUND
+    WATER,GROUND,ROSEAU
 }
