@@ -6,7 +6,7 @@ public class Ducky {
 
      public Cell pos;
      public Cell posPrev;
-     public Cell targetFood;
+     public Food m_targetFood;
      public int gridSize;
      public ArrayList<Cell> fov;
 
@@ -39,7 +39,7 @@ public class Ducky {
          m_state = StateHero.RANDOM;
 
          // init target food
-         targetFood = new Cell(-1,-1);
+         m_targetFood = new Food();
      }
 
 
@@ -94,7 +94,7 @@ public class Ducky {
                 System.out.println("[STATE] RW");
                 RandomWalk();
                 decreasedEstomac();
-                // state future state
+                // state future state - future BDI
                 if(isWaterInFov(this.fov))
                 {
                     System.out.println("je veux l'eau svp");
@@ -111,6 +111,7 @@ public class Ducky {
                 if (reachedWater)
                 {
                     m_state = StateHero.SWIM;
+                    reachedWater = false;
                 }
                 break;
             case SWIM:
@@ -129,7 +130,7 @@ public class Ducky {
                 swimAndHunt();
                 decreasedEstomac();
                 inWater = true;
-                if ((this.pos.x == targetFood.x) && (this.pos.y == targetFood.y))
+                if ((this.pos.x == m_targetFood.pos.x) && (this.pos.y == m_targetFood.pos.y))
                 {
                     m_state = StateHero.EATING;
                 }
@@ -138,11 +139,12 @@ public class Ducky {
                 System.out.println("[STATE] Hunt");
                 Hunt();
                 decreasedEstomac();
-                reachedWater = false;
                 break;
             case EATING:
                 System.out.println("[STATE] Eat");
                 Eat();
+                // go randomWalk
+                m_state = StateHero.RANDOM;
                 break;
             case DEAD:
                 System.out.println("[STATE] DEAD !! But Revival");
@@ -239,21 +241,25 @@ public class Ducky {
      }
 
      // food position  when in Lake
-    public void setFoodWater(Cell foodpos)
+    public void setFoodWater(Cell snack, int id)
     {
-        targetFood = foodpos;
+        m_targetFood.pos.x = snack.x;
+        m_targetFood.pos.y = snack.y;
+        m_targetFood.setId(id);
     }
+
+    public int getEatenId() { return m_targetFood.getId(); }
 
     private boolean validFoodCell()
     {
-        return ! ((targetFood.x == -1) && (targetFood.y == -1));
+        return ! ((m_targetFood.pos.x == -1) && (m_targetFood.pos.y == -1));
     }
 
 
      //hunt if there is/are fish in the lake
      public void swimAndHunt(){
          // walk toward Food
-         walkTowardPosition(targetFood.x, targetFood.y);
+         walkTowardPosition(m_targetFood.pos.x, m_targetFood.pos.y);
      }
     // hunt on ground
     public void Hunt(){}
