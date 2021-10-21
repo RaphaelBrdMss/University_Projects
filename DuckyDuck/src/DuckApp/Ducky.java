@@ -14,6 +14,7 @@ public class Ducky {
     private boolean reachedWater = false;
     private boolean reachedRoseau = false;
     public boolean inWater = false;
+    boolean foundWater = false;
 
 
     public Ducky(int sizeGrid, Grid g ) {
@@ -112,6 +113,11 @@ public class Ducky {
                 {
                     m_state = StateHero.SWIM;
                     reachedWater = false;
+                }
+                else if (! foundWater)
+                {
+                    // if not found water go random Walk
+                    m_state = StateHero.RANDOM;
                 }
                 break;
             case SWIM:
@@ -217,7 +223,7 @@ public class Ducky {
         int xwater = 0;
         int ywater = 0;
         int dxy = Integer.MAX_VALUE;
-        boolean foundWater = false;
+        foundWater = false;
         // get nearest water
         for(Cell c : this.fov) {
             if(c.type == GroundType.WATER){
@@ -239,7 +245,7 @@ public class Ducky {
             // set movement toward cell
             walkTowardPosition(xwater, ywater);
         }
-        else
+        else // if water not found we need to random walk
         {
             System.out.println("Set to center : " + gridSize/ 2  +","+ gridSize/ 2);
             System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
@@ -252,6 +258,8 @@ public class Ducky {
 
         // if we land on target next turn, we need to swim STATE
         reachedWater = ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0);
+
+
     }
 
     // Walk to Roseaux
