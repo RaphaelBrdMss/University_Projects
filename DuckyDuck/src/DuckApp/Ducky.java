@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Ducky {
 
     public Cell pos;
-    public Cell posPrev;
     public Food m_targetFood;
     public int gridSize;
     public ArrayList<Cell> fov;
@@ -13,6 +12,7 @@ public class Ducky {
     public int estomac = 100; // 100 = plein, 0=dead
     public StateHero m_state;
     private boolean reachedWater = false;
+    private boolean reachedRoseau = false;
     public boolean inWater = false;
 
 
@@ -104,7 +104,7 @@ public class Ducky {
                 inWater = false;
                 break;
             case WALK:
-                System.out.println("[STATE] Walk to Water");
+                System.out.println("[STATE] Walk to Water ");
                 waterTarget();
                 decreasedEstomac();
                 // if water is reached we change the future state
@@ -144,6 +144,22 @@ public class Ducky {
                 System.out.println("[STATE] Eat");
                 Eat();
                 // go randomWalk
+                m_state = StateHero.WALKROS;
+                break;
+            case WALKROS:
+                System.out.println("[STATE] Walk To a rest place ");
+                roseauxTarget();
+                decreasedEstomac();
+                // if roseau is reached we change the future state
+                if (reachedRoseau)
+                {
+                    m_state = StateHero.REST;
+                    reachedRoseau = false;
+                }
+                break;
+            case REST:
+                System.out.println("[STATE] Rest");
+                Rest();
                 m_state = StateHero.RANDOM;
                 break;
             case DEAD:
@@ -164,6 +180,14 @@ public class Ducky {
         }*/
 
 
+
+    }
+
+    // REST and WAIT
+    public void Rest()
+    {
+        // wait
+        System.out.println("REST");
 
     }
 
@@ -193,6 +217,7 @@ public class Ducky {
         int xwater = 0;
         int ywater = 0;
         int dxy = Integer.MAX_VALUE;
+        boolean foundWater = false;
         // get nearest water
         for(Cell c : this.fov) {
             if(c.type == GroundType.WATER){
@@ -201,20 +226,84 @@ public class Ducky {
                     xwater = c.x;
                     ywater = c.y;
                     dxy = Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y);
+                    foundWater = true;
                 }
             }
 
         }
 
-        System.out.println("Nearest Water : " + xwater +","+ ywater);
-        System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
+        if (foundWater)
+        {
+            System.out.println("Nearest Water : " + xwater +","+ ywater);
+            System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
+            // set movement toward cell
+            walkTowardPosition(xwater, ywater);
+        }
+        else
+        {
+            System.out.println("Set to center : " + gridSize/ 2  +","+ gridSize/ 2);
+            System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
+            // set movement toward center
+            walkTowardPosition(gridSize/ 2, gridSize/ 2);
+        }
 
-        // set movement toward cell
-        walkTowardPosition(xwater, ywater);
+
+
 
         // if we land on target next turn, we need to swim STATE
         reachedWater = ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0);
     }
+
+    // Walk to Roseaux
+    public void roseauxTarget(){
+
+        int xtarget = 0;
+        int ytarget = 0;
+        int dxy = Integer.MAX_VALUE;
+        int xwat = 0;
+        int ywat = 0;
+        int dxywater = Integer.MIN_VALUE;
+        boolean foundRoseau = false;
+        // get roseaux
+        for(Cell c : this.fov) {
+            if(c.type == GroundType.ROSEAU){
+                if ((Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y)) < dxy )
+                {
+                    xtarget = c.x;
+                    ytarget = c.y;
+                    dxy = Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y);
+                    foundRoseau = true;
+                }
+            } else if (c.type == GroundType.WATER)
+            {
+                if ((Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y)) > dxywater )
+                {
+                    xwat = c.x;
+                    ywat = c.y;
+                    dxywater = Math.abs(this.pos.x - c.x) + Math.abs(this.pos.y - c.y);
+                }
+            }
+        }
+
+        if (foundRoseau)
+        {
+            // set movement toward cell
+            walkTowardPosition(xtarget, ytarget);
+            System.out.println("Nearest Roseau : " + xtarget +","+ ytarget);
+        }
+        else
+        {
+            // walk to farthest water
+            walkTowardPosition(xwat, ywat);
+            System.out.println("Nearest Water : " + xwat +","+ ywat);
+        }
+
+        System.out.println("Ducky Pos  " + pos.x +","+ pos.y);
+
+        // if we land on target next turn, we need to swim STATE
+        reachedRoseau = ((this.pos.x - xtarget) == 0 && (this.pos.y - ytarget) == 0);
+    }
+
 
     //Random swim if there is no fish in lake(s)
     public void randomSwim(){

@@ -7,5 +7,7 @@ public enum StateHero {
     SWIMHUNT,   // in water and heads toward fish
     HUNT,       // in Ground and heads towards food
     EATING,     // is Eating fish
+    WALKROS,    // Walk Toward Roseaux ??
+    REST,       // Is resting in Roseaux - avoid keep looking for fish
     DEAD,       // Is dead
 }
