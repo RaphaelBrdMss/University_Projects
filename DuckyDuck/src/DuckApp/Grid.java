@@ -37,28 +37,32 @@ public class Grid {
 
             }
         }
-        // Generation V1 roseau a little buggy but works pretty fine (still need debug)
+        // Generation V2 roseau fully functional
         for(int i=0 ; i<lakeSize ; i++){
 
-            if(getCell(waterCells.get(i).x-1,waterCells.get(i).y).x>-1  )
+            if(CellCheck(waterCells.get(i).x-1,waterCells.get(i).y))
                 getCell(waterCells.get(i).x - 1, waterCells.get(i).y).setType(GroundType.ROSEAU);
 
-            if(getCell(waterCells.get((lakeSize*lakeSize-1)-i).x+1,waterCells.get((lakeSize*lakeSize-1)-i).y).x<=size)
+            if(CellCheck(waterCells.get((lakeSize*lakeSize-1)-i).x+1,waterCells.get((lakeSize*lakeSize-1)-i).y))
+
                 getCell(waterCells.get((lakeSize*lakeSize-1)-i).x+1,waterCells.get((lakeSize*lakeSize-1)-i).y).setType(GroundType.ROSEAU);
 
 
             for(int j= 0; j<lakeSize; j++){
 
                 if(getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).type == GroundType.GROUND
-                        && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).y<=size){
+                        && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).x ==
+                        getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y).x)
+                {
 
                     getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y+1).setType(GroundType.ROSEAU);
                 }
+
+
                 if(getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).type == GroundType.GROUND
-                        && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).y>-1){
-
-
-
+                        && getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).x ==
+                        getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y).x)
+                {
 
                     getCell(waterCells.get(i*lakeSize+j).x,waterCells.get(i*lakeSize+j).y-1).setType(GroundType.ROSEAU);
                 }
@@ -78,6 +82,13 @@ public class Grid {
         return CellsList.get(x*this.size+y);
 
 
+    }
+
+    //check if the cell is on the list  
+    public Boolean CellCheck(int x,int y){
+        if(x*this.size+y >CellsList.size() ||x*this.size+y <0   ){
+            return false;
+        }else return true;
     }
 
     public ArrayList<Cell> getFov(Cell pos){
@@ -102,13 +113,7 @@ public class Grid {
 
 
 
-    /*public static void main(String[] args){
-        DuckApp.Grid c = new DuckApp.Grid(10,3);
-        for(int i = 0; i< c.size* c.size;i++){
-            System.out.println( c.CellsList.get(i).x +","+ c.CellsList.get(i).y +" : Type :"+ c.CellsList.get(i).type );
 
-        }
-    }*/
 
 
 }
