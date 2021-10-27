@@ -17,6 +17,8 @@ public class Ducky {
     boolean foundWater = false;
 
 
+
+
     public Ducky(int sizeGrid, Grid g ) {
         this.gridSize = g.size;
         fov = new ArrayList<Cell>();
@@ -34,7 +36,7 @@ public class Ducky {
         this.pos = g.getCell(randX, randY);
 
         // def du fov 3x3
-        fov = g.getFov(pos);
+        fov = g.getFov(pos,2);
 
         // state
         m_state = StateHero.RANDOM;
@@ -424,6 +426,11 @@ public class Ducky {
             }
         }
         return false;
+    }
+
+
+    public Cell getPos(){
+        return this.pos;
     }
 
 }

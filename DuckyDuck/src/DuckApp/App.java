@@ -32,14 +32,22 @@ public class App extends Application {
         ScrollPane scroll = new ScrollPane(new Group(root));
         bdPane.setCenter(scroll);
         Scene scene = new Scene(bdPane, 800, 800);
+        int scaleCell = 200;
+
+
 
         ////////////////////////////////////
         ////Init Grid, Duckpos & Foodpos////
         ///////////////////////////////////
         Grid g = new Grid(20,8);
         Ducky duck = new Ducky(g.size,g);
+        Hunter hunter = new Hunter(g.size,g,1);
         // instantiate food
         Food Fish = new Food(g.size,g);
+        for(int i =0 ; i<hunter.fov.size() ; i++){
+            System.out.println(hunter.fov.get(i).toString());
+        }
+
 
 
 
@@ -51,6 +59,7 @@ public class App extends Application {
         FileInputStream inputGrass;
         FileInputStream inputWater;
         FileInputStream inputRoseau;
+        FileInputStream inputHunter;
 
         String OsType = System.getProperty("os.name").toLowerCase();
 
@@ -61,6 +70,8 @@ public class App extends Application {
             inputGrass = new FileInputStream("Texture/Herbe.jpg");
             inputWater = new FileInputStream("Texture/Eau.jpg");
             inputRoseau = new FileInputStream("Texture/Roseau.jpg");
+            inputHunter = new FileInputStream("Texture/Chasseur.png");
+
 
 
         }else {
@@ -69,14 +80,19 @@ public class App extends Application {
             inputGrass = new FileInputStream("Texture\\Herbe.jpg");
             inputWater = new FileInputStream("Texture\\Eau.jpg");
             inputRoseau = new FileInputStream("Texture\\Roseau.jpg");
+            inputHunter = new FileInputStream("Texture\\Chasseur.png");
         }
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
-        duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
+        duckyPNG.relocate(duck.pos.x*scaleCell,duck.pos.y*scaleCell);
 
         Image imageFish = new Image(inputFish);
         ImageView TruitePNG = new ImageView(imageFish);
-        TruitePNG.relocate(Fish.pos.x*100,Fish.pos.y*100);
+        TruitePNG.relocate(Fish.pos.x*scaleCell,Fish.pos.y*scaleCell);
+
+        Image imageHunter = new Image(inputHunter);
+        ImageView HunterPNG = new ImageView(imageHunter);
+        HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
 
         Image imageRoseau = new Image(inputRoseau);
         BackgroundImage bRoseau = new BackgroundImage(imageRoseau,
@@ -117,21 +133,19 @@ public class App extends Application {
 /*---------------------------------------------------------------------------------
 Init cells
  ---------------------------------------------------------------------------------*/
-
+        String setStyle = "-fx-min-width:" +scaleCell+ "; -fx-min-height: "+scaleCell+"; -fx-max-width: " +scaleCell+
+                "; -fx-max-height: "+scaleCell+";";
         for(Cell c : g.CellsList){
 
             Region cellshow = new Region();
-            int x= 100*c.x;
-            int y = 100*c.y;
+            int x= scaleCell*c.x;
+            int y = scaleCell*c.y;
 
 
             if(c.type == GroundType.GROUND){
 
 
-
-
-
-                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setStyle(setStyle);
                 cellshow.setBackground(grass);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
@@ -139,16 +153,14 @@ Init cells
 
             if(c.type == GroundType.WATER){
 
-                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
+                cellshow.setStyle(setStyle);
                 cellshow.setBackground(water);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
             }
 
             if(c.type == GroundType.ROSEAU){
-                cellshow.setStyle("-fx-min-width: 100; -fx-min-height: 100; -fx-max-width: 100; -fx-max-height: 100;");
-
-
+                cellshow.setStyle(setStyle);
                 cellshow.setBackground(roseau);
                 cellshow.setLayoutX(x);
                 cellshow.setLayoutY(y);
@@ -156,11 +168,14 @@ Init cells
 
             }
 
-
             root.getChildren().add(cellshow);
 
 
         }
+
+
+
+
 
 
 
@@ -197,7 +212,7 @@ End init cells
                     {
                         // eat - relocate
                         Fish.regenerate(g.size,g);
-                        TruitePNG.relocate(Fish.pos.x*100.0, Fish.pos.y*100.0);
+                        TruitePNG.relocate(Fish.pos.x*scaleCell, Fish.pos.y*scaleCell);
                     }
                 }
 
@@ -205,8 +220,8 @@ End init cells
                 // DUCKY STATE
                 // ---------------
                 duck.Update();
-                duckyPNG.relocate(duck.pos.x*100,duck.pos.y*100);
-                duck.setFov(g.getFov(duck.pos));
+                duckyPNG.relocate(duck.pos.x*scaleCell,duck.pos.y*scaleCell);
+                duck.setFov(g.getFov(duck.pos,2));
                 // if in water => send the nearest fish
                 if (duck.inWater)
                 {
@@ -219,6 +234,14 @@ End init cells
                 // ---------------
                 mangerbar.setWidth(widthManger*duck.estomac);
 
+
+                //----------------
+                // HUNTER STATE
+                //----------------
+                hunter.Update(duck.pos);
+                HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
+                hunter.setFov(g.getFov(hunter.pos, 3));
+
             }
         });
 
@@ -228,13 +251,7 @@ End init cells
         root.getChildren().add(TruitePNG);
         root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
-
-
-
-
-
-
-
+        root.getChildren().add(HunterPNG);
 
 
         //zooming fonction

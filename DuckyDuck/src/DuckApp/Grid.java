@@ -72,11 +72,6 @@ public class Grid {
 
 
 
-
-
-
-
-
     }
     public Cell getCell(int x, int y){
         return CellsList.get(x*this.size+y);
@@ -84,18 +79,16 @@ public class Grid {
 
     }
 
-    //check if the cell is on the list  
+    //check if the cell is on the list
     public Boolean CellCheck(int x,int y){
-        if(x*this.size+y >CellsList.size() ||x*this.size+y <0   ){
-            return false;
-        }else return true;
+        return x * this.size + y <= CellsList.size() && x * this.size + y >= 0;
     }
 
-    public ArrayList<Cell> getFov(Cell pos){
+    public ArrayList<Cell> getFov(Cell pos,int fovSize){
         ArrayList<Cell>  fov = new ArrayList<>();
-        for (int kx=-1; kx < 2; kx++)
+        for (int kx=1-fovSize; kx < fovSize; kx++)
         {
-            for (int ky=-1; ky < 2; ky++)
+            for (int ky=1-fovSize; ky < fovSize; ky++)
             {
                 int xk = pos.x + kx;
                 int yk = pos.y + ky;

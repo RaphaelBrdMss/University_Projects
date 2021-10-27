@@ -29,4 +29,6 @@ public class Cell {
     public String toString(){
         return "Coord : " + x + "," + y;
     }
+
+
 }
