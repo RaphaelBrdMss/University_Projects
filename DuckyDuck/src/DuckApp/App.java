@@ -60,6 +60,7 @@ public class App extends Application {
         FileInputStream inputWater;
         FileInputStream inputRoseau;
         FileInputStream inputHunter;
+        FileInputStream inputDeadDucky;
 
         String OsType = System.getProperty("os.name").toLowerCase();
 
@@ -71,6 +72,7 @@ public class App extends Application {
             inputWater = new FileInputStream("Texture/Eau.jpg");
             inputRoseau = new FileInputStream("Texture/Roseau.jpg");
             inputHunter = new FileInputStream("Texture/Chasseur.png");
+            inputDeadDucky = new FileInputStream("Texture/DeadDucky.png");
 
 
 
@@ -81,6 +83,7 @@ public class App extends Application {
             inputWater = new FileInputStream("Texture\\Eau.jpg");
             inputRoseau = new FileInputStream("Texture\\Roseau.jpg");
             inputHunter = new FileInputStream("Texture\\Chasseur.png");
+            inputDeadDucky = new FileInputStream("Texture\\DeadDucky.png");
         }
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
@@ -93,6 +96,11 @@ public class App extends Application {
         Image imageHunter = new Image(inputHunter);
         ImageView HunterPNG = new ImageView(imageHunter);
         HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
+
+        Image imageDead = new Image(inputDeadDucky);
+
+
+
 
         Image imageRoseau = new Image(inputRoseau);
         BackgroundImage bRoseau = new BackgroundImage(imageRoseau,
@@ -205,7 +213,7 @@ End init cells
                 // ---------------
                 // FOOD HANDLING
                 // ---------------
-                if (duck.m_state == StateHero.EATING)
+                if (duck.getM_state() == StateHero.EATING)
                 {
                     boolean isSameFish = Fish.isId(duck.getEatenId());
                     if (isSameFish)
@@ -216,11 +224,46 @@ End init cells
                     }
                 }
 
+
+                
+                //----------------
+                // HUNTER STATE
+                //----------------
+
+                Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
+                hunter.Update(duck.pos);
+                Cell nextCell = g.getCell(hunter.pos.x, hunter.pos.y);
+                if (nextCell.type == GroundType.GROUND ){
+
+
+                    HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
+                    hunter.setFov(g.getFov(hunter.pos, 3));
+
+                }else{
+
+                    hunter.setPos(prevCell);
+
+
+                }
+
+
+            }
+
                 // ---------------
                 // DUCKY STATE
                 // ---------------
+
+
                 duck.Update();
-                duckyPNG.relocate(duck.pos.x*scaleCell,duck.pos.y*scaleCell);
+
+                if(duck.getM_state() != StateHero.DEAD) {
+
+                    duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
+                }else{
+
+                    duckyPNG.setImage(imageDead);
+                }
+
                 duck.setFov(g.getFov(duck.pos,2));
                 // if in water => send the nearest fish
                 if (duck.inWater)
@@ -229,20 +272,14 @@ End init cells
                     duck.setFoodWater(Fish.pos, Fish.getId());
                 }
 
+
                 // ---------------
                 // User Information
                 // ---------------
                 mangerbar.setWidth(widthManger*duck.estomac);
 
 
-                //----------------
-                // HUNTER STATE
-                //----------------
-                hunter.Update(duck.pos);
-                HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
-                hunter.setFov(g.getFov(hunter.pos, 3));
 
-            }
         });
 
 
@@ -252,6 +289,9 @@ End init cells
         root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
         root.getChildren().add(HunterPNG);
+
+
+
 
 
         //zooming fonction

@@ -8,11 +8,13 @@ public class Ducky {
     public Food m_targetFood;
     public int gridSize;
     public ArrayList<Cell> fov;
+    private boolean isShooted= false;
 
     public int estomac = 100; // 100 = plein, 0=dead
-    public StateHero m_state;
+    private StateHero m_state ;
     private boolean reachedWater = false;
     private boolean reachedRoseau = false;
+
     public boolean inWater = false;
     boolean foundWater = false;
 
@@ -93,60 +95,81 @@ public class Ducky {
 
         switch (this.m_state)
         {
+
             case RANDOM:
-                System.out.println("[STATE] RW");
-                RandomWalk();
-                decreasedEstomac();
-                // state future state - future BDI
-                if(isWaterInFov(this.fov))
-                {
-                    System.out.println("je veux l'eau svp");
-                    m_state = StateHero.WALK;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
                 }
-                reachedWater = false;
-                inWater = false;
+                else {
+                    System.out.println("[STATE] RW");
+                    RandomWalk();
+                    estomac--;
+
+                    // state future state - future BDI
+                    if (isWaterInFov(this.fov)) {
+                        System.out.println("je veux l'eau svp");
+                        m_state = StateHero.WALK;
+                    }
+                    reachedWater = false;
+                    inWater = false;
+                }
                 break;
             case WALK:
-                System.out.println("[STATE] Walk to Water ");
-                waterTarget();
-                decreasedEstomac();
-                // if water is reached we change the future state
-                if (reachedWater)
-                {
-                    m_state = StateHero.SWIM;
-                    reachedWater = false;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
                 }
-                else if (! foundWater)
-                {
-                    // if not found water go random Walk
-                    m_state = StateHero.RANDOM;
+                else {
+                    System.out.println("[STATE] Walk to Water ");
+                    waterTarget();
+                    estomac--;
+                    // if water is reached we change the future state
+                    if (reachedWater) {
+                        m_state = StateHero.SWIM;
+                        reachedWater = false;
+                    } else if (!foundWater) {
+                        // if not found water go random Walk
+                        m_state = StateHero.RANDOM;
+                    }
                 }
                 break;
             case SWIM:
-                System.out.println("[STATE] RSWIM");
-                randomSwim();
-                decreasedEstomac();
-                inWater = true;
-                // if valid food cell
-                if (validFoodCell())
-                {
-                    m_state = StateHero.SWIMHUNT;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
+                }
+                else {
+                    System.out.println("[STATE] RSWIM");
+                    randomSwim();
+                    estomac--;
+                    inWater = true;
+                    // if valid food cell
+                    if (validFoodCell()) {
+                        m_state = StateHero.SWIMHUNT;
+                    }
                 }
                 break;
             case SWIMHUNT:
-                System.out.println("[STATE] SwimAndHunt");
-                swimAndHunt();
-                decreasedEstomac();
-                inWater = true;
-                if ((this.pos.x == m_targetFood.pos.x) && (this.pos.y == m_targetFood.pos.y))
-                {
-                    m_state = StateHero.EATING;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
+                }
+                else {
+                    System.out.println("[STATE] SwimAndHunt");
+                    swimAndHunt();
+                    estomac--;
+                    inWater = true;
+                    if ((this.pos.x == m_targetFood.pos.x) && (this.pos.y == m_targetFood.pos.y)) {
+                        m_state = StateHero.EATING;
+                    }
                 }
                 break;
             case HUNT:
-                System.out.println("[STATE] Hunt");
-                Hunt();
-                decreasedEstomac();
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
+                }
+                else {
+                    System.out.println("[STATE] Hunt");
+                    Hunt();
+                    estomac--;
+                }
                 break;
             case EATING:
                 System.out.println("[STATE] Eat");
@@ -155,14 +178,18 @@ public class Ducky {
                 m_state = StateHero.WALKROS;
                 break;
             case WALKROS:
-                System.out.println("[STATE] Walk To a rest place ");
-                roseauxTarget();
-                decreasedEstomac();
-                // if roseau is reached we change the future state
-                if (reachedRoseau)
-                {
-                    m_state = StateHero.REST;
-                    reachedRoseau = false;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
+                }
+                else {
+                    System.out.println("[STATE] Walk To a rest place ");
+                    roseauxTarget();
+                    estomac--;
+                    // if roseau is reached we change the future state
+                    if (reachedRoseau) {
+                        m_state = StateHero.REST;
+                        reachedRoseau = false;
+                    }
                 }
                 break;
             case REST:
@@ -171,13 +198,18 @@ public class Ducky {
                 m_state = StateHero.RANDOM;
                 break;
             case DEAD:
-                System.out.println("[STATE] DEAD !! But Revival");
+                System.out.println("[STATE] DEAD !! ");
                 // Is dead but we still want to move him
-                m_state = StateHero.RANDOM;
+                //m_state = StateHero.RANDOM;
                 break;
             default:
-                decreasedEstomac();
-                inWater = false;
+                if( isDuckDead()){
+                    m_state = StateHero.DEAD;
+                }
+                else {
+                    estomac--;
+                    inWater = false;
+                }
                 break;
         }
 
@@ -191,31 +223,19 @@ public class Ducky {
 
     }
 
+    public boolean isDuckDead(){
+
+        if(estomac  <=0){
+            return true;
+        }
+        else return isShooted;
+    }
+
     // REST and WAIT
     public void Rest()
     {
         // wait
         System.out.println("REST");
-
-    }
-
-
-    public void move(){
-        //on ne met jamais a jour la pos.type donc il voit pas d'eau ou dans certain cas pas encore trouvés.
-        if(pos.type == GroundType.WATER){
-            System.out.println("plifplouf");
-
-        }
-
-        else if(isWaterInFov(this.fov)){
-            System.out.println("je veux l'eau svp");
-            waterTarget();
-        }
-
-        else{
-            System.out.println("rw");
-            RandomWalk();
-        }
 
     }
 
@@ -363,18 +383,6 @@ public class Ducky {
     // hunt on ground
     public void Hunt(){}
 
-    public void decreasedEstomac()
-    {
-        // if not eating
-        if (estomac > 0)
-        {
-            estomac--;
-        }
-        else
-        {
-            //m_state = StateHero.DEAD;
-        }
-    }
     // eat : +50
     public void Eat(){
         if (estomac > 50)
@@ -429,8 +437,18 @@ public class Ducky {
     }
 
 
-    public Cell getPos(){
-        return this.pos;
+
+
+    public void setShooted(){
+        this.isShooted = true;
     }
+
+
+
+    public StateHero getM_state(){
+        return m_state;
+    }
+
+
 
 }
