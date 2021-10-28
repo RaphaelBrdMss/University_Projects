@@ -8,7 +8,7 @@ public class Ducky {
     public Food m_targetFood;
     public int gridSize;
     public ArrayList<Cell> fov;
-    private boolean isShooted= false;
+    public boolean isShooted= false;
 
     public int estomac = 100; // 100 = plein, 0=dead
     private StateHero m_state ;
@@ -439,9 +439,7 @@ public class Ducky {
 
 
 
-    public void setShooted(){
-        this.isShooted = true;
-    }
+
 
 
 

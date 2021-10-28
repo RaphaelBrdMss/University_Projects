@@ -225,7 +225,7 @@ End init cells
                 }
 
 
-                
+
                 //----------------
                 // HUNTER STATE
                 //----------------
@@ -256,6 +256,10 @@ End init cells
 
                 duck.Update();
 
+            if(hunter.shooted){
+                duck.isShooted = true;
+            }
+
                 if(duck.getM_state() != StateHero.DEAD) {
 
                     duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
@@ -263,6 +267,7 @@ End init cells
 
                     duckyPNG.setImage(imageDead);
                 }
+
 
                 duck.setFov(g.getFov(duck.pos,2));
                 // if in water => send the nearest fish

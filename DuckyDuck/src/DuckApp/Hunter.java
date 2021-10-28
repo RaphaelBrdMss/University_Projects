@@ -104,12 +104,12 @@ public class Hunter extends  Ducky  {
     }
 
 
-    public void shoot(Cell duckPos) {
+    public boolean shoot(Cell duckPos) {
         if (bullets > 0) {
             for (Cell c : fov) {
                 if (c.x == duckPos.x && c.y == duckPos.y) {
                     if (Math.random() > 0) {
-                        super.setShooted();
+
                         shooted = true;
                     }
 
@@ -117,6 +117,7 @@ public class Hunter extends  Ducky  {
 
             }
         }
+        return shooted;
     }
 
 
