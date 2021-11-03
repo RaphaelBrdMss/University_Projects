@@ -193,15 +193,26 @@ End init cells
         // ---------------
         // BARS
         // ---------------
-        double widthManger = 2.0;
-        Rectangle fondMbar = new Rectangle(widthManger, 50.0, Color.BLACK);
-        Rectangle mangerbar = new Rectangle(widthManger, 50.0, Color.RED);
-        fondMbar.setWidth(widthManger*duck.estomac);
-        mangerbar.setWidth(widthManger*duck.estomac);
+        // Manger
+        double widthBar = 2.0;
+        Rectangle fondMbar = new Rectangle(widthBar, 50.0, Color.BLACK);
+        Rectangle mangerbar = new Rectangle(widthBar, 50.0, Color.RED);
+        fondMbar.setWidth(widthBar*duck.getEstomac());
+        mangerbar.setWidth(widthBar*duck.getEstomac());
         fondMbar.setX(50.0);
         fondMbar.setY(50.0);
         mangerbar.setX(50.0);
         mangerbar.setY(50.0);
+
+        // Energie
+        Rectangle fondStaminaBar = new Rectangle(widthBar, 50.0, Color.BLACK);
+        Rectangle staminaBar = new Rectangle(widthBar, 50.0, Color.YELLOW);
+        fondStaminaBar.setWidth(widthBar*duck.getM_stamina());
+        staminaBar.setWidth(widthBar*duck.getM_stamina());
+        fondStaminaBar.setX(50.0);
+        fondStaminaBar.setY(50.0 + 80.0);
+        staminaBar.setX(50.0);
+        staminaBar.setY(50.0 + 80.0);
 
 
         /////////////////////////////////////////
@@ -213,17 +224,14 @@ End init cells
                 // ---------------
                 // FOOD HANDLING
                 // ---------------
-                if (duck.getM_state() == StateHero.EATING)
-                {
+                if (duck.getM_state() == StateHero.EATING) {
                     boolean isSameFish = Fish.isId(duck.getEatenId());
-                    if (isSameFish)
-                    {
+                    if (isSameFish) {
                         // eat - relocate
-                        Fish.regenerate(g.size,g);
-                        TruitePNG.relocate(Fish.pos.x*scaleCell, Fish.pos.y*scaleCell);
+                        Fish.regenerate(g.size, g);
+                        TruitePNG.relocate(Fish.pos.x * scaleCell, Fish.pos.y * scaleCell);
                     }
                 }
-
 
 
                 //----------------
@@ -233,57 +241,48 @@ End init cells
                 Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
                 hunter.Update(duck.pos);
                 Cell nextCell = g.getCell(hunter.pos.x, hunter.pos.y);
-                if (nextCell.type == GroundType.GROUND ){
+                if (nextCell.type == GroundType.GROUND) {
 
-
-                    HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
+                    HunterPNG.relocate(hunter.pos.x * scaleCell, hunter.pos.y * scaleCell);
                     hunter.setFov(g.getFov(hunter.pos, 3));
 
-                }else{
+                } else {
 
                     hunter.setPos(prevCell);
-
-
                 }
 
-
-            }
 
                 // ---------------
                 // DUCKY STATE
                 // ---------------
-
-
                 duck.Update();
 
-            if(hunter.shooted){
-                duck.isShooted = true;
-            }
+                if (hunter.shooted) {
+                    duck.isShooted = true;
+                }
 
-                if(duck.getM_state() != StateHero.DEAD) {
+                if (duck.getM_state() != StateHero.DEAD) {
 
                     duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
-                }else{
+                } else {
 
                     duckyPNG.setImage(imageDead);
                 }
 
-
-                duck.setFov(g.getFov(duck.pos,2));
+                duck.setFov(g.getFov(duck.pos, 2));
                 // if in water => send the nearest fish
-                if (duck.inWater)
-                {
+                if (duck.inWater) {
                     // determine which food : m_id
                     duck.setFoodWater(Fish.pos, Fish.getId());
                 }
 
-
                 // ---------------
                 // User Information
                 // ---------------
-                mangerbar.setWidth(widthManger*duck.estomac);
+                mangerbar.setWidth(widthBar * duck.getEstomac());
+                staminaBar.setWidth(widthBar * duck.getM_stamina());
 
-
+            }
 
         });
 
@@ -293,6 +292,8 @@ End init cells
         root.getChildren().add(TruitePNG);
         root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
+        root.getChildren().add(fondStaminaBar);
+        root.getChildren().add(staminaBar);
         root.getChildren().add(HunterPNG);
 
 
