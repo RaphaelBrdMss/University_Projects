@@ -249,12 +249,14 @@ End init cells
                 } else {
 
                     hunter.setPos(prevCell);
+
                 }
 
 
                 // ---------------
                 // DUCKY STATE
                 // ---------------
+
                 duck.Update();
 
                 if (hunter.shooted) {
@@ -275,6 +277,7 @@ End init cells
                     // determine which food : m_id
                     duck.setFoodWater(Fish.pos, Fish.getId());
                 }
+
 
                 // ---------------
                 // User Information

@@ -19,6 +19,8 @@ public class Hunter extends  Ducky  {
     }
 
 
+
+
     public void Update(Cell duckPos) {
 
         switch (this.m_stateHunter) {
@@ -28,15 +30,26 @@ public class Hunter extends  Ducky  {
 
                     if (c.x == duckPos.x && c.y == duckPos.y) {
                         m_stateHunter = StateHero.HUNT;
+                        System.out.println("rwalk");
+                        break;
                     }
 
                 }
                 RandomWalk();
+
                 break;
 
             case WALK:
                 walkTowardPosition(duckPos.x, duckPos.y);
+                m_stateHunter = StateHero.REST;
+
                 break;
+
+            case REST :
+
+                walkTowardPosition(0,0);
+
+
 
             case HUNT:
 
@@ -45,6 +58,7 @@ public class Hunter extends  Ducky  {
                 if(shooted) {
 
                     m_stateHunter = StateHero.WALK;
+
 
                 }
 
@@ -103,11 +117,11 @@ public class Hunter extends  Ducky  {
 
     }
 
-
-    public boolean shoot(Cell duckPos) {
+    //hunter can shoot the duck with this fonction (make sure to set chance of shooting for a good sim)
+    public void shoot(Cell duckPos) {
         if (bullets > 0) {
             for (Cell c : fov) {
-                if (c.x == duckPos.x && c.y == duckPos.y) {
+                if (c.x == duckPos.x && c.y == duckPos.y && c.type !=GroundType.WATER && c.type != GroundType.ROSEAU) {
                     if (Math.random() > 0) {
 
                         shooted = true;
@@ -116,8 +130,11 @@ public class Hunter extends  Ducky  {
                 }
 
             }
+        }else{
+            shooted = false;
         }
-        return shooted;
+
+
     }
 
 
