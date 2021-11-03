@@ -99,12 +99,12 @@ public class Ducky {
         // DEAD overall
         if( isDuckDead()){
             m_state = StateHero.DEAD;
+            System.out.println("[STATE] DEAD !! ");
             return;
         }
 
         switch (this.m_state)
         {
-
             case RANDOM:
                 System.out.println("[STATE] RW");
                 RandomWalk();

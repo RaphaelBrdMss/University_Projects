@@ -224,17 +224,14 @@ End init cells
                 // ---------------
                 // FOOD HANDLING
                 // ---------------
-                if (duck.getM_state() == StateHero.EATING)
-                {
+                if (duck.getM_state() == StateHero.EATING) {
                     boolean isSameFish = Fish.isId(duck.getEatenId());
-                    if (isSameFish)
-                    {
+                    if (isSameFish) {
                         // eat - relocate
-                        Fish.regenerate(g.size,g);
-                        TruitePNG.relocate(Fish.pos.x*scaleCell, Fish.pos.y*scaleCell);
+                        Fish.regenerate(g.size, g);
+                        TruitePNG.relocate(Fish.pos.x * scaleCell, Fish.pos.y * scaleCell);
                     }
                 }
-
 
 
                 //----------------
@@ -244,47 +241,48 @@ End init cells
                 Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
                 hunter.Update(duck.pos);
                 Cell nextCell = g.getCell(hunter.pos.x, hunter.pos.y);
-                if (nextCell.type == GroundType.GROUND ){
+                if (nextCell.type == GroundType.GROUND) {
 
-                    HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
+                    HunterPNG.relocate(hunter.pos.x * scaleCell, hunter.pos.y * scaleCell);
                     hunter.setFov(g.getFov(hunter.pos, 3));
 
-                }else{
+                } else {
 
                     hunter.setPos(prevCell);
                 }
+
+
+                // ---------------
+                // DUCKY STATE
+                // ---------------
+                duck.Update();
+
+                if (hunter.shooted) {
+                    duck.isShooted = true;
+                }
+
+                if (duck.getM_state() != StateHero.DEAD) {
+
+                    duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
+                } else {
+
+                    duckyPNG.setImage(imageDead);
+                }
+
+                duck.setFov(g.getFov(duck.pos, 2));
+                // if in water => send the nearest fish
+                if (duck.inWater) {
+                    // determine which food : m_id
+                    duck.setFoodWater(Fish.pos, Fish.getId());
+                }
+
+                // ---------------
+                // User Information
+                // ---------------
+                mangerbar.setWidth(widthBar * duck.getEstomac());
+                staminaBar.setWidth(widthBar * duck.getM_stamina());
+
             }
-
-            // ---------------
-            // DUCKY STATE
-            // ---------------
-            duck.Update();
-
-            if(hunter.shooted){
-                duck.isShooted = true;
-            }
-
-            if(duck.getM_state() != StateHero.DEAD) {
-
-                duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
-            }else{
-
-                duckyPNG.setImage(imageDead);
-            }
-
-            duck.setFov(g.getFov(duck.pos,2));
-            // if in water => send the nearest fish
-            if (duck.inWater)
-            {
-                // determine which food : m_id
-                duck.setFoodWater(Fish.pos, Fish.getId());
-            }
-
-            // ---------------
-            // User Information
-            // ---------------
-            mangerbar.setWidth(widthBar*duck.getEstomac());
-            staminaBar.setWidth(widthBar*duck.getM_stamina());
 
         });
 
