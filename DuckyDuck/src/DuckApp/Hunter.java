@@ -146,6 +146,10 @@ public class Hunter extends  Ducky  {
         pos =  newPos;
     }
 
+    public StateHero getM_stateHunter(){
+        return m_stateHunter;
+    }
+
 
 }
 

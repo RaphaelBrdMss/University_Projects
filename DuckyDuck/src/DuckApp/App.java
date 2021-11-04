@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class App extends Application {
 
@@ -98,6 +99,9 @@ public class App extends Application {
 
         ArrayList<ImageView>  DucksPNG = new ArrayList<>();
         ArrayList<Ducky> ducks = new ArrayList<>();
+
+
+
         //Init canard
         Ducky ducky = new Ducky(g.size,g);
         ducks.add(ducky);
@@ -112,6 +116,8 @@ public class App extends Application {
             DucksPNG.add(DuckPNG);
 
         }
+        Iterator<Ducky> ducksit = ducks.iterator();
+        Iterator<ImageView> DucksPNGit = DucksPNG.iterator();
 
 
 
@@ -121,6 +127,8 @@ public class App extends Application {
         ArrayList<Hunter> hunters = new ArrayList<>();
         Image imageHunter = new Image(inputHunter);
         ArrayList<ImageView> HuntersPNG = new ArrayList<>();
+
+
         for(int i = 0 ; i<nbHunter ; i++){
             Hunter hunter = new Hunter(g.size,g,1);
             hunters.add(hunter);
@@ -285,6 +293,12 @@ End init cells
                         hunter.setPos(prevCell);
 
                     }
+                    if(hunter.getM_stateHunter() == StateHero.REST && hunter.pos.x == 0 && hunter.pos.y==0){
+                        hunters.remove(hunter);
+                        root.getChildren().remove(HuntersPNG.get(itr));
+                        HuntersPNG.remove(itr);
+                        itr--;
+                    }
                     itr++;
                 }
 
@@ -292,7 +306,6 @@ End init cells
                 // ---------------
                 // DUCKY STATE
                 // ---------------
-
 
                 int itrD = 0;
 
@@ -321,31 +334,42 @@ End init cells
 
 
                         DucksPNG.get(itrD).relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
+                        duck.setFov(g.getFov(duck.pos, 2));
+                        // if in water => send the nearest fish
+                        if (duck.inWater) {
+                            // determine which food : m_id
+                            duck.setFoodWater(Fish.pos, Fish.getId());
+                        }
                     } else {
                         for (Hunter h: hunters) {
 
                             if (itrD == 0) {
                                 DucksPNG.get(itrD).setImage(imageDead);
+                                if(h.pos.x == duck.pos.x && h.pos.y == duck.pos.y){
+                                    ducks.remove(duck);
+                                    root.getChildren().remove(DucksPNG.get(itrD));
+                                    DucksPNG.remove(itrD);
+                                    itrD--;
+                                    break;
+                                }
+
                             } else {
                                 DucksPNG.get(itrD).setImage(deadDuck);
-                                if(h.pos.equals(duck.pos)){
+                                if(h.pos.x == duck.pos.x && h.pos.y == duck.pos.y){
                                     System.out.println("remove iamges");
                                     ducks.remove(duck);
-                                    DucksPNG.get(itrD).setImage(null);
-
+                                    root.getChildren().remove(DucksPNG.get(itrD));
                                     DucksPNG.remove(itrD);
+                                    itrD--;
+                                    break;
+
                                 }
 
                             }
                         }
                     }
 
-                    duck.setFov(g.getFov(duck.pos, 2));
-                    // if in water => send the nearest fish
-                    if (duck.inWater) {
-                        // determine which food : m_id
-                        duck.setFoodWater(Fish.pos, Fish.getId());
-                    }
+
                     itrD++;
                 }
                 // ---------------
