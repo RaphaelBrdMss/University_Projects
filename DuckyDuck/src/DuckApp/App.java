@@ -316,9 +316,9 @@ End init cells
                     }
 
 
-
+                    duck.Update();
                     if (duck.getM_state() != StateHero.DEAD) {
-                        duck.Update();
+
 
                         DucksPNG.get(itrD).relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
                     } else {
