@@ -1,10 +1,13 @@
 package DuckApp;
 
+import java.util.ArrayList;
+
 public class Hunter extends  Ducky  {
     public int gridsize;
     private StateHero m_stateHunter;
     int bullets;
-    public Boolean shooted = false;
+    public Boolean shootSucced = false;
+    public Ducky target;
 
 
 
@@ -21,50 +24,48 @@ public class Hunter extends  Ducky  {
 
 
 
-    public void Update(Cell duckPos) {
+    public void Update(ArrayList<Ducky> ducks) {
+
 
         switch (this.m_stateHunter) {
             case RANDOM:
 
                 for ( Cell c : fov) {
 
-                    if (c.x == duckPos.x && c.y == duckPos.y) {
-                        m_stateHunter = StateHero.HUNT;
-                        System.out.println("rwalk");
-                        break;
-                    }
+                    for(Ducky d : ducks) {
+                        if (c.x == d.pos.x && c.y == d.pos.y && bullets > 0) {
 
+                            target = d;
+
+                            shoot(target, c);
+                            if (shootSucced) {
+                                m_stateHunter = StateHero.WALK;
+                            } else {
+                                m_stateHunter = StateHero.REST;
+                            }
+                            break;
+
+
+                        }
+                    }
                 }
                 RandomWalk();
-
                 break;
 
-            case WALK:
-                walkTowardPosition(duckPos.x, duckPos.y);
-                m_stateHunter = StateHero.REST;
 
+            case WALK:
+                if(pos.x !=target.pos.x || pos.y != target.pos.y) {
+                    System.out.println("Hunter WALK");
+                    walkTowardPosition(target.pos.x, target.pos.y);
+
+                }else{
+                    m_stateHunter = StateHero.REST;
+                }
                 break;
 
             case REST :
 
                 walkTowardPosition(0,0);
-
-
-
-            case HUNT:
-
-                shoot(duckPos);
-                //if shoot succed
-                if(shooted) {
-
-                    m_stateHunter = StateHero.WALK;
-
-
-                }
-
-                else {
-                    m_stateHunter = StateHero.RANDOM;
-                }
                 break;
 
 
@@ -118,20 +119,22 @@ public class Hunter extends  Ducky  {
     }
 
     //hunter can shoot the duck with this fonction (make sure to set chance of shooting for a good sim)
-    public void shoot(Cell duckPos) {
-        if (bullets > 0) {
-            for (Cell c : fov) {
-                if (c.x == duckPos.x && c.y == duckPos.y && c.type !=GroundType.WATER && c.type != GroundType.ROSEAU) {
+    public void shoot(Ducky target,Cell targetCell) {
+
+        if (bullets > 0 ) {
+            bullets -=1;
+
+                if ( targetCell.type !=GroundType.WATER && targetCell.type != GroundType.ROSEAU) {
                     if (Math.random() > 0) {
 
-                        shooted = true;
+                        shootSucced = true;
                     }
 
                 }
 
-            }
+
         }else{
-            shooted = false;
+            shootSucced = false;
         }
 
 

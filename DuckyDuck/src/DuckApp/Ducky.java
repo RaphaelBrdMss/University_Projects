@@ -115,20 +115,20 @@ public class Ducky {
         switch (this.m_state)
         {
             case RANDOM:
-                System.out.println("[STATE] RW");
+                //System.out.println("[STATE] RW");
                 RandomWalk();
                 decreaseStamina();
 
                 // state future state - future BDI
                 if (isWaterInFov(this.fov)) {
-                    System.out.println("Water In FOV");
+                    //System.out.println("Water In FOV");
                     m_state = StateHero.WALK;
                 }
                 reachedWater = false;
                 inWater = false;
                 break;
             case WALK:
-                System.out.println("[STATE] Walk to Water ");
+                //System.out.println("[STATE] Walk to Water ");
                 waterTarget();
                 // if water is reached we change the future state
                 if (reachedWater) {
@@ -141,7 +141,7 @@ public class Ducky {
                 decreaseStamina();
                 break;
             case SWIM:
-                System.out.println("[STATE] RSWIM");
+                //System.out.println("[STATE] RSWIM");
                 randomSwim();
                 inWater = true;
                 // if valid food cell
@@ -151,7 +151,7 @@ public class Ducky {
                 decreaseStamina();
                 break;
             case SWIMHUNT:
-                System.out.println("[STATE] SwimAndHunt");
+                //System.out.println("[STATE] SwimAndHunt");
                 swimAndHunt();
 
                 inWater = true;
@@ -161,19 +161,19 @@ public class Ducky {
                 decreaseStamina();
                 break;
             case HUNT:
-                System.out.println("[STATE] Hunt");
+                //System.out.println("[STATE] Hunt");
                 Hunt();
                 decreaseStamina();
                 break;
             case EATING:
-                System.out.println("[STATE] Eat");
+                //System.out.println("[STATE] Eat");
                 Eat();
                 // future state : go randomWalk
                 m_state = StateHero.WALKROS;
                 decreaseStamina();
                 break;
             case WALKROS:
-                System.out.println("[STATE] Walk To a rest place ");
+                //System.out.println("[STATE] Walk To a rest place ");
                 roseauxTarget();
                 // if roseau is reached we change the future state
                 if (reachedRoseau) {
@@ -183,7 +183,7 @@ public class Ducky {
                 decreaseStamina();
                 break;
             case REST:
-                System.out.println("[STATE] Rest");
+                //System.out.println("[STATE] Rest");
                 Rest();
                 // Full recharge
                 if (m_stamina == 100){
@@ -191,7 +191,7 @@ public class Ducky {
                 }
                 break;
             case DEAD:
-                System.out.println("[STATE] DEAD !! ");
+                //System.out.println("[STATE] DEAD !! ");
                 // Is dead but we still want to move him
                 //m_state = StateHero.RANDOM;
                 break;
@@ -213,6 +213,10 @@ public class Ducky {
         }
         else return isShooted;
     }
+
+     public void setisShooted(){
+        isShooted = true;
+     }
 
     // REST and Recharge
     public void Rest()

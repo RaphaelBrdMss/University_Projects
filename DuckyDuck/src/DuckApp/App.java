@@ -17,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class App extends Application {
 
@@ -36,17 +37,15 @@ public class App extends Application {
 
 
 
-        ////////////////////////////////////
-        ////Init Grid, Duckpos & Foodpos////
-        ///////////////////////////////////
+        ////////////////////////////
+        ////Init Grid & Foodpos////
+        //////////////////////////
+        int nbDuck = 9;
+        int nbHunter = 3;
         Grid g = new Grid(20,8);
-        Ducky duck = new Ducky(g.size,g);
-        Hunter hunter = new Hunter(g.size,g,1);
+
         // instantiate food
         Food Fish = new Food(g.size,g);
-        for(int i =0 ; i<hunter.fov.size() ; i++){
-            System.out.println(hunter.fov.get(i).toString());
-        }
 
 
 
@@ -61,6 +60,8 @@ public class App extends Application {
         FileInputStream inputRoseau;
         FileInputStream inputHunter;
         FileInputStream inputDeadDucky;
+        FileInputStream inputDuck;
+        FileInputStream inputDeadDuck;
 
         String OsType = System.getProperty("os.name").toLowerCase();
 
@@ -73,6 +74,9 @@ public class App extends Application {
             inputRoseau = new FileInputStream("Texture/Roseau.jpg");
             inputHunter = new FileInputStream("Texture/Chasseur.png");
             inputDeadDucky = new FileInputStream("Texture/DeadDucky.png");
+            inputDuck = new FileInputStream("Texture/Duck.png");
+            inputDeadDuck = new FileInputStream("Texture/DeadDuck.png");
+
 
 
 
@@ -84,20 +88,55 @@ public class App extends Application {
             inputRoseau = new FileInputStream("Texture\\Roseau.jpg");
             inputHunter = new FileInputStream("Texture\\Chasseur.png");
             inputDeadDucky = new FileInputStream("Texture\\DeadDucky.png");
+            inputDuck = new FileInputStream("Texture\\Duck.png");
+            inputDeadDuck = new FileInputStream("Texture\\DeadDuck.png");
         }
+
         Image image = new Image(input);
         ImageView duckyPNG = new ImageView(image);
-        duckyPNG.relocate(duck.pos.x*scaleCell,duck.pos.y*scaleCell);
+        Image Duckimage = new Image(inputDuck);
+
+        ArrayList<ImageView>  DucksPNG = new ArrayList<>();
+        ArrayList<Ducky> ducks = new ArrayList<>();
+        //Init canard
+        Ducky ducky = new Ducky(g.size,g);
+        ducks.add(ducky);
+        duckyPNG.relocate(ducky.pos.x*scaleCell,ducky.pos.y*scaleCell);
+        DucksPNG.add(duckyPNG);
+
+        for(int i = 0 ; i<nbDuck; i++){
+            Ducky duck = new Ducky(g.size,g);
+            ducks.add(duck);
+            ImageView DuckPNG = new ImageView( Duckimage);
+            DuckPNG.relocate(duck.pos.x * scaleCell, duck.pos.y *scaleCell);
+            DucksPNG.add(DuckPNG);
+
+        }
+
+
+
+
+
+        // Init hunters
+        ArrayList<Hunter> hunters = new ArrayList<>();
+        Image imageHunter = new Image(inputHunter);
+        ArrayList<ImageView> HuntersPNG = new ArrayList<>();
+        for(int i = 0 ; i<nbHunter ; i++){
+            Hunter hunter = new Hunter(g.size,g,1);
+            hunters.add(hunter);
+            ImageView HunterPNG = new ImageView(imageHunter);
+            HunterPNG.relocate(hunter.pos.x * scaleCell, hunter.pos.y * scaleCell);
+            HuntersPNG.add(HunterPNG);
+        }
+
 
         Image imageFish = new Image(inputFish);
         ImageView TruitePNG = new ImageView(imageFish);
         TruitePNG.relocate(Fish.pos.x*scaleCell,Fish.pos.y*scaleCell);
 
-        Image imageHunter = new Image(inputHunter);
-        ImageView HunterPNG = new ImageView(imageHunter);
-        HunterPNG.relocate(hunter.pos.x *scaleCell, hunter.pos.y *scaleCell);
 
         Image imageDead = new Image(inputDeadDucky);
+        Image deadDuck  = new Image(inputDeadDuck);
 
 
 
@@ -197,8 +236,8 @@ End init cells
         double widthBar = 2.0;
         Rectangle fondMbar = new Rectangle(widthBar, 50.0, Color.BLACK);
         Rectangle mangerbar = new Rectangle(widthBar, 50.0, Color.RED);
-        fondMbar.setWidth(widthBar*duck.getEstomac());
-        mangerbar.setWidth(widthBar*duck.getEstomac());
+        fondMbar.setWidth(widthBar*ducky.getEstomac());
+        mangerbar.setWidth(widthBar*ducky.getEstomac());
         fondMbar.setX(50.0);
         fondMbar.setY(50.0);
         mangerbar.setX(50.0);
@@ -207,8 +246,8 @@ End init cells
         // Energie
         Rectangle fondStaminaBar = new Rectangle(widthBar, 50.0, Color.BLACK);
         Rectangle staminaBar = new Rectangle(widthBar, 50.0, Color.YELLOW);
-        fondStaminaBar.setWidth(widthBar*duck.getM_stamina());
-        staminaBar.setWidth(widthBar*duck.getM_stamina());
+        fondStaminaBar.setWidth(widthBar*ducky.getM_stamina());
+        staminaBar.setWidth(widthBar*ducky.getM_stamina());
         fondStaminaBar.setX(50.0);
         fondStaminaBar.setY(50.0 + 80.0);
         staminaBar.setX(50.0);
@@ -224,32 +263,29 @@ End init cells
                 // ---------------
                 // FOOD HANDLING
                 // ---------------
-                if (duck.getM_state() == StateHero.EATING) {
-                    boolean isSameFish = Fish.isId(duck.getEatenId());
-                    if (isSameFish) {
-                        // eat - relocate
-                        Fish.regenerate(g.size, g);
-                        TruitePNG.relocate(Fish.pos.x * scaleCell, Fish.pos.y * scaleCell);
+
+
+
+                //----------------
+                // HUNTERS STATE
+                //----------------
+                int itr = 0;
+                for(Hunter hunter : hunters) {
+
+                    Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
+                    hunter.Update(ducks);
+                    Cell nextCell = g.getCell(hunter.pos.x, hunter.pos.y);
+                    if (nextCell.type == GroundType.GROUND) {
+
+                        HuntersPNG.get(itr).relocate(hunter.pos.x * scaleCell, hunter.pos.y * scaleCell);
+                        hunter.setFov(g.getFov(hunter.pos, 3));
+
+                    } else {
+
+                        hunter.setPos(prevCell);
+
                     }
-                }
-
-
-                //----------------
-                // HUNTER STATE
-                //----------------
-
-                Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
-                hunter.Update(duck.pos);
-                Cell nextCell = g.getCell(hunter.pos.x, hunter.pos.y);
-                if (nextCell.type == GroundType.GROUND) {
-
-                    HunterPNG.relocate(hunter.pos.x * scaleCell, hunter.pos.y * scaleCell);
-                    hunter.setFov(g.getFov(hunter.pos, 3));
-
-                } else {
-
-                    hunter.setPos(prevCell);
-
+                    itr++;
                 }
 
 
@@ -257,33 +293,66 @@ End init cells
                 // DUCKY STATE
                 // ---------------
 
-                duck.Update();
 
-                if (hunter.shooted) {
-                    duck.isShooted = true;
+                int itrD = 0;
+
+                for (Ducky duck : ducks) {
+                    if (duck.getM_state() == StateHero.EATING) {
+                        boolean isSameFish = Fish.isId(duck.getEatenId());
+                        if (isSameFish) {
+                            // eat - relocate
+                            Fish.regenerate(g.size, g);
+                            TruitePNG.relocate(Fish.pos.x * scaleCell, Fish.pos.y * scaleCell);
+                        }
+                    }
+
+
+
+                    for(Hunter h : hunters){
+                        if (duck.equals(h.target) && h.shootSucced) {
+                            duck.isShooted = true;
+                            break;
+                        }
+                    }
+
+
+
+                    if (duck.getM_state() != StateHero.DEAD) {
+                        duck.Update();
+
+                        DucksPNG.get(itrD).relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
+                    } else {
+                        for (Hunter h: hunters) {
+
+                            if (itrD == 0) {
+                                DucksPNG.get(itrD).setImage(imageDead);
+                            } else {
+                                DucksPNG.get(itrD).setImage(deadDuck);
+                                if(h.pos.equals(duck.pos)){
+                                    System.out.println("remove iamges");
+                                    ducks.remove(duck);
+                                    DucksPNG.get(itrD).setImage(null);
+
+                                    DucksPNG.remove(itrD);
+                                }
+
+                            }
+                        }
+                    }
+
+                    duck.setFov(g.getFov(duck.pos, 2));
+                    // if in water => send the nearest fish
+                    if (duck.inWater) {
+                        // determine which food : m_id
+                        duck.setFoodWater(Fish.pos, Fish.getId());
+                    }
+                    itrD++;
                 }
-
-                if (duck.getM_state() != StateHero.DEAD) {
-
-                    duckyPNG.relocate(duck.pos.x * scaleCell, duck.pos.y * scaleCell);
-                } else {
-
-                    duckyPNG.setImage(imageDead);
-                }
-
-                duck.setFov(g.getFov(duck.pos, 2));
-                // if in water => send the nearest fish
-                if (duck.inWater) {
-                    // determine which food : m_id
-                    duck.setFoodWater(Fish.pos, Fish.getId());
-                }
-
-
                 // ---------------
                 // User Information
                 // ---------------
-                mangerbar.setWidth(widthBar * duck.getEstomac());
-                staminaBar.setWidth(widthBar * duck.getM_stamina());
+                mangerbar.setWidth(widthBar * ducky.getEstomac());
+                staminaBar.setWidth(widthBar * ducky.getM_stamina());
 
             }
 
@@ -291,13 +360,19 @@ End init cells
 
 
         //add Ducky & food to the scene (after mouvement)
-        root.getChildren().add(duckyPNG);
+
         root.getChildren().add(TruitePNG);
         root.getChildren().add(fondMbar);
         root.getChildren().add(mangerbar);
         root.getChildren().add(fondStaminaBar);
         root.getChildren().add(staminaBar);
-        root.getChildren().add(HunterPNG);
+        for(ImageView Dpng : DucksPNG){
+            root.getChildren().add(Dpng);
+        }
+        for(ImageView Hpng : HuntersPNG ) {
+            root.getChildren().add(Hpng);
+        }
+
 
 
 
