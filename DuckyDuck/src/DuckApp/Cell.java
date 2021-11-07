@@ -30,5 +30,10 @@ public class Cell {
         return "Coord : " + x + "," + y;
     }
 
+    public boolean isInvalid()
+    {
+        return (this.x == -1) && (this.y == -1);
+    }
+
 
 }
