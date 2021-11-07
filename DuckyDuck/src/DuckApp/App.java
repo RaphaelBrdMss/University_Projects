@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 
 public class App extends Application {
 
@@ -99,6 +100,7 @@ public class App extends Application {
 
         ArrayList<ImageView>  DucksPNG = new ArrayList<>();
         ArrayList<Ducky> ducks = new ArrayList<>();
+        ArrayList<Integer> duckToRemove = new ArrayList<Integer>();
 
 
 
@@ -116,8 +118,10 @@ public class App extends Application {
             DucksPNG.add(DuckPNG);
 
         }
+
         Iterator<Ducky> ducksit = ducks.iterator();
         Iterator<ImageView> DucksPNGit = DucksPNG.iterator();
+
 
 
 
@@ -127,6 +131,7 @@ public class App extends Application {
         ArrayList<Hunter> hunters = new ArrayList<>();
         Image imageHunter = new Image(inputHunter);
         ArrayList<ImageView> HuntersPNG = new ArrayList<>();
+        ArrayList<Integer> hunterToRemove = new ArrayList<Integer>();
 
 
         for(int i = 0 ; i<nbHunter ; i++){
@@ -278,6 +283,7 @@ End init cells
                 // HUNTERS STATE
                 //----------------
                 int itr = 0;
+                hunterToRemove.clear();
                 for(Hunter hunter : hunters) {
 
                     Cell prevCell = g.getCell(hunter.pos.x, hunter.pos.y);
@@ -294,12 +300,20 @@ End init cells
 
                     }
                     if(hunter.getM_stateHunter() == StateHero.REST && hunter.pos.x == 0 && hunter.pos.y==0){
-                        hunters.remove(hunter);
-                        root.getChildren().remove(HuntersPNG.get(itr));
-                        HuntersPNG.remove(itr);
-                        itr--;
+                        hunterToRemove.add(itr);
                     }
                     itr++;
+                }
+
+                // there is no concurrency as we take from upper to lowest index
+                hunterToRemove.sort(Collections.reverseOrder());
+                for (Integer i : hunterToRemove)
+                {
+                    int iD = (int)i;
+                    System.out.print("Remove Hunter Index="+ i.toString() + "\n");
+                    root.getChildren().remove(HuntersPNG.get(iD));
+                    HuntersPNG.remove(iD);
+                    hunters.remove(iD);
                 }
 
 
@@ -308,6 +322,7 @@ End init cells
                 // ---------------
 
                 int itrD = 0;
+                duckToRemove.clear();
 
                 for (Ducky duck : ducks) {
                     if (duck.getM_state() == StateHero.EATING) {
@@ -345,33 +360,36 @@ End init cells
 
                             if (itrD == 0) {
                                 DucksPNG.get(itrD).setImage(imageDead);
-                                if(h.pos.x == duck.pos.x && h.pos.y == duck.pos.y){
-                                    ducks.remove(duck);
-                                    root.getChildren().remove(DucksPNG.get(itrD));
-                                    DucksPNG.remove(itrD);
-                                    itrD--;
-                                    break;
-                                }
-
                             } else {
                                 DucksPNG.get(itrD).setImage(deadDuck);
-                                if(h.pos.x == duck.pos.x && h.pos.y == duck.pos.y){
-                                    System.out.println("remove iamges");
-                                    ducks.remove(duck);
-                                    root.getChildren().remove(DucksPNG.get(itrD));
-                                    DucksPNG.remove(itrD);
-                                    itrD--;
-                                    break;
-
-                                }
-
                             }
+
+                            if(h.pos.x == duck.pos.x && h.pos.y == duck.pos.y){
+                                duckToRemove.add(itrD);
+                                break;
+                            }
+
+
                         }
                     }
 
 
                     itrD++;
                 }
+
+                // Remove Dead Ducks
+                duckToRemove.sort(Collections.reverseOrder());
+                for (Integer i: duckToRemove)
+                {
+                    int iD = (int) i;
+                    System.out.print("Remove Duck Index="+ i.toString() + "\n");
+                    root.getChildren().remove(DucksPNG.get(iD));
+                    DucksPNG.remove(iD);
+                    ducks.remove(iD);
+                }
+
+
+
                 // ---------------
                 // User Information
                 // ---------------
