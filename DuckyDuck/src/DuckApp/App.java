@@ -325,7 +325,7 @@ End init cells
                 duckToRemove.clear();
 
                 for (Ducky duck : ducks) {
-                    if (duck.getM_state() == StateHero.EATING) {
+                    if (duck.getM_intention()== DesireHero.EATING && duck.m_conditions.get(6).getActivationStatus()) {
                         boolean isSameFish = Fish.isId(duck.getEatenId());
                         if (isSameFish) {
                             // eat - relocate

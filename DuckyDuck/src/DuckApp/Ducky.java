@@ -195,9 +195,12 @@ public class Ducky {
                     }
                     decreaseStamina();
                 }
-                //Roseaux not in fov (insomnia :p)
+
+
                 RandomWalk();
                 decreaseStamina();
+
+
                 break;
         }
 
