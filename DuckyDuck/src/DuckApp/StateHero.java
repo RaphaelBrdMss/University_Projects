@@ -10,6 +10,7 @@ public enum StateHero {
     WALKROS,    // Walk Toward Roseaux ??
     REST,       // Is resting in Roseaux - avoid keep looking for fish
     DEAD,       // Is dead
+    IDLE,       // default
 
 
     //Hunter stuff

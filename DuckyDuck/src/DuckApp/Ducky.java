@@ -13,8 +13,12 @@ public class Ducky {
     private int m_estomac = 100; // 100 = plein, 0=dead
     private int m_stamina = 100; // 100 = energie , 0 no move allowed
     private int m_happiness = 100; // 100 = full, < 20 impact on stamina
-    private StateHero m_state ;
-    private boolean reachedWater = false;
+    // Desire Intentions and State
+    private DesireHero m_intention = DesireHero.IDLE;
+    private StateHero m_state ; // current statehero
+    private ArrayList<DuckState> m_plan; // plan of actions = list of statehero
+    ArrayList<StateCondition> m_conditions;
+
     private boolean reachedRoseau = false;
 
     public boolean inWater = false;
@@ -22,6 +26,9 @@ public class Ducky {
 
     private int m_pasStamina = 5;
     private int m_addStamina = 10;
+
+    public static int _id = 0;
+    private int m_id = -1;
 
 
 
@@ -49,6 +56,42 @@ public class Ducky {
 
         // init target food
         m_targetFood = new Food();
+        m_id = ++_id;
+
+        // Init conditions for State Machine
+        m_conditions = new ArrayList<StateCondition>();
+        m_conditions.add(new StateCondition(EStateCondition.DUCK_IN_FOV));
+        m_conditions.add(new StateCondition(EStateCondition.WATER_IN_FOV));
+        m_conditions.add(new StateCondition(EStateCondition.NEXT_TO_DUCK));
+        m_conditions.add(new StateCondition(EStateCondition.ROSEAUX_IN_FOV));
+        m_conditions.add(new StateCondition(EStateCondition.REACHED_WATER));
+        m_conditions.add(new StateCondition(EStateCondition.REACHED_ROSEAUX));
+        m_conditions.add(new StateCondition(EStateCondition.REACHED_FOOD));
+        m_conditions.add(new StateCondition(EStateCondition.RECHARGED));
+        m_conditions.add(new StateCondition(EStateCondition.DUCK_IN_WATER));
+        m_conditions.add(new StateCondition(EStateCondition.NONE));
+    }
+
+    // update conditions with fov
+    public void updateConditions(Cell duckpos)
+    {
+        m_conditions.get(0).setActivation(isWaterInFov(this.fov));
+        m_conditions.get(1).setActivation(isGroundTypeInFov(this.fov, GroundType.WATER));
+        if (duckpos == null) {
+            m_conditions.get(2).deactivate();
+        } else {
+            m_conditions.get(2).setActivation(isCellInFov(this.fov, duckpos));
+        }
+        m_conditions.get(3).setActivation(isGroundTypeInFov(this.fov, GroundType.ROSEAU));
+
+        m_conditions.get(4).deactivate();
+        // Reached ROseaux
+        m_conditions.get(5).deactivate();
+        m_conditions.get(6).setActivation((this.pos.x == m_targetFood.pos.x) && (this.pos.y == m_targetFood.pos.y));
+        m_conditions.get(7).setActivation(m_stamina == 100);
+
+        m_conditions.get(8).setActivation(false);
+        m_conditions.get(9).activate();
     }
 
 
@@ -59,12 +102,8 @@ public class Ducky {
         y= pos.y;
         int c = 0;
         do{
-
             int num = (int)(Math.random()*4);
-
-
             if(num ==0){
-
                 x++;
             }
             else if (num ==1){
@@ -72,11 +111,9 @@ public class Ducky {
             }
             else if (num ==2){
                 y--;
-
             }
             else if (num ==3){
                 y++;
-
             }
             c++;
             if(c>10){
@@ -84,13 +121,9 @@ public class Ducky {
                 y= pos.y;
                 break;
             }
-
-
         }while(x < 0 || x >=  gridSize || y < 0 || y >=gridSize);
         pos.x = x;
         pos.y = y;
-
-
     }
 
 
@@ -105,13 +138,164 @@ public class Ducky {
         }
 
         // if no energy : rest on cell
-        if ( m_stamina < 1)
-        {
+        if ( m_stamina < 1) {
             m_state = StateHero.REST;
         }
 
         // Set Desire
+        //Update the current fov
+        updateConditions(pos);
 
+        //find a desire : depends on fov
+        this.m_intention = setDesire();
+
+        //Change his actions depending on his desires
+        switch(this.m_intention){
+            case LOST:
+                //System.out.println("[STATE] RW");
+                RandomWalk();
+                decreaseStamina();
+                break;
+            case EATING:
+                // Water in FOV
+                if (m_conditions.get(1).getActivationStatus()) {
+                    //System.out.println("Water In FOV");
+                    waterTarget();
+                }
+                // In Water
+                if(m_conditions.get(4).getActivationStatus()){
+                    m_conditions.get(4).deactivate(); // REACHED WATER
+                    // SWIM
+                    randomSwim();
+                    decreaseStamina();
+                    inWater = true;
+                    // if valid food cell
+                    if (validFoodCell()) {
+                        //SWIMHUNT
+                        swimAndHunt();
+                        decreaseStamina();
+                        if (m_conditions.get(6).getActivationStatus()) {
+                            //EATING
+                            Eat();
+                            decreaseStamina();
+                        }
+                    }
+                }
+                //Water not in fov (starve :p)
+                RandomWalk();
+                decreaseStamina();
+                break;
+            case REST:
+                //Roseaux in fov
+                if(m_conditions.get(3).getActivationStatus()){
+                    roseauxTarget();
+                    if (reachedRoseau) {
+                        Rest();
+                        reachedRoseau = false;
+                    }
+                    decreaseStamina();
+                }
+                //Roseaux not in fov (insomnia :p)
+                RandomWalk();
+                decreaseStamina();
+                break;
+        }
+
+
+
+        /*
+        switch (this.m_state)
+        {
+            case RANDOM:
+                //System.out.println("[STATE] RW");
+                RandomWalk();
+                decreaseStamina();
+                // Water in FOV
+                if (m_conditions.get(1).getActivationStatus()) {
+                    //System.out.println("Water In FOV");
+                    m_state = StateHero.WALK;
+                }
+                m_conditions.get(4).deactivate(); // REACHED WATER
+                inWater = false;
+                break;
+            case WALK:
+                //System.out.println("[STATE] Walk to Water ");
+                waterTarget();
+                // if water is reached we change the future state
+                if (m_conditions.get(4).getActivationStatus()) {
+                    m_state = StateHero.SWIM;
+                    m_conditions.get(4).deactivate(); // REACHED WATER
+                } else if (!m_conditions.get(1).getActivationStatus()) {
+                    // if not found water go random Walk
+                    m_state = StateHero.RANDOM;
+                }
+                decreaseStamina();
+                break;
+            case SWIM:
+                randomSwim();
+                inWater = true;
+                // if valid food cell
+                if (validFoodCell()) {
+                    m_state = StateHero.SWIMHUNT;
+                }
+                decreaseStamina();
+                break;
+            case SWIMHUNT:
+                //System.out.println("[STATE] SwimAndHunt");
+                swimAndHunt();
+                inWater = true;
+                if (m_conditions.get(6).getActivationStatus()) {
+                    m_state = StateHero.EATING;
+                }
+                decreaseStamina();
+                break;
+            case HUNT:
+                //System.out.println("[STATE] Hunt");
+                Hunt();
+                decreaseStamina();
+                break;
+            case EATING:
+                //System.out.println("[STATE] Eat");
+                Eat();
+                // future state : go randomWalk
+                m_state = StateHero.WALKROS;
+                decreaseStamina();
+                break;
+            case WALKROS:
+                //System.out.println("[STATE] Walk To a rest place ");
+                roseauxTarget();
+                // if roseau is reached we change the future state
+                if (reachedRoseau) {
+                    m_state = StateHero.REST;
+                    reachedRoseau = false;
+                }
+                decreaseStamina();
+                break;
+            case REST:
+                //System.out.println("[STATE] Rest");
+                Rest();
+                // Full recharge
+                if (m_conditions.get(7).getActivationStatus()){
+                    m_state = StateHero.RANDOM;
+                }
+                break;
+            case DEAD:
+                //System.out.println("[STATE] DEAD !! ");
+                break;
+            default:
+                decreaseStamina();
+                inWater = false;
+                break;
+        }
+         */
+
+        // increase Hunger each 3 move
+        updateHunger(m_pasStamina);
+
+    }
+
+    /*public void defaultFSM()
+    {
         switch (this.m_state)
         {
             case RANDOM:
@@ -192,19 +376,14 @@ public class Ducky {
                 break;
             case DEAD:
                 //System.out.println("[STATE] DEAD !! ");
-                // Is dead but we still want to move him
-                //m_state = StateHero.RANDOM;
                 break;
             default:
                 decreaseStamina();
                 inWater = false;
                 break;
         }
+    }*/
 
-        // increase Hunger each 3 move
-        updateHunger(m_pasStamina);
-
-    }
 
     public boolean isDuckDead(){
 
@@ -214,9 +393,9 @@ public class Ducky {
         else return isShooted;
     }
 
-     public void setisShooted(){
+    public void setisShooted(){
         isShooted = true;
-     }
+    }
 
     // REST and Recharge
     public void Rest()
@@ -237,6 +416,7 @@ public class Ducky {
         int xwater = 0;
         int ywater = 0;
         int dxy = Integer.MAX_VALUE;
+        Boolean reachedWater;
         foundWater = false;
         // get nearest water
         for(Cell c : this.fov) {
@@ -268,6 +448,7 @@ public class Ducky {
 
         // if we land on target next turn, we need to swim STATE
         reachedWater = ((this.pos.x - xwater) == 0 && (this.pos.y - ywater) == 0);
+        m_conditions.get(4).setActivation(reachedWater);
     }
 
     // Walk to Roseaux
@@ -422,6 +603,31 @@ public class Ducky {
         return false;
     }
 
+    // Compare positions in Fov versus Position of the entity
+    public Boolean isCellInFov(ArrayList<Cell> ifov, Cell entitypos)
+    {
+        Boolean found = false;
+        for(Cell c : ifov) {
+            if (c.x == entitypos.x && c.y == entitypos.y) {
+                found = true;
+            }
+        }
+
+        return found;
+    }
+
+    public Boolean isGroundTypeInFov(ArrayList<Cell> ifov, GroundType gt)
+    {
+        Boolean found = false;
+        for(Cell c : ifov) {
+            if (c.type == gt) {
+                found = true;
+            }
+        }
+
+        return found;
+    }
+
     // Increased hunger according to stamina
     private void updateHunger(int pas)
     {
@@ -446,6 +652,21 @@ public class Ducky {
     }
 
 
+    //set a Desire
+    public DesireHero setDesire(){
+        if(m_estomac < 50){
+            //System.out.println("[INTENTION] Eat");
+            return DesireHero.EATING;
+        }
+        if(m_stamina < 50){
+            //System.out.println("[INTENTION] Rest");
+            return DesireHero.REST;
+        }
+        return DesireHero.LOST;
+
+    }
+
+
     // Getters
     // -------
 
@@ -460,6 +681,12 @@ public class Ducky {
     public StateHero getM_state(){
         return m_state;
     }
+
+    public DesireHero getM_intention(){
+        return m_intention;
+    }
+
+    public int getM_id(){ return m_id; }
 
 
 
